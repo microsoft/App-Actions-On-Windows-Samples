@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "actions": [
+    {
+      "id": "MyMessagingApp.SendMessage",
+      "description": "ms-resource://Resources/SendMessageActionDescription",
+      "inputs": [
+        {
+          "name": "Contact",
+          "kind": "Text"
+        },
+        {
+          "name": "Message",
+          "kind": "Text"
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "Contact" ],
+          "description": "ms-resource://Resources/inputCombination1"
+        },
+        {
+          "inputs": [ "Contact", "Message" ],
+          "description": "ms-resource://Resources/inputCombination2"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MessageCount",
+          "kind": "Text"
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "15271F46-7E72-4703-B511-6C22CDD17A47"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+﻿{
+  "version": 1,
+  "actions": [
+    {
+      "id": "Samples.UriActions.DisplayMessage",
+      "description": "ms-resource://Resources/ActionDescription",
+      "inputs": [
+        {
+          "name": "Message",
+          "kind": "Text"
+        }
+      ],
+      "outputs": [],
+      "instantiationDescription": "ms-resource://Resources/ActionDescription",
+      "invocation": {
+        "type": "Uri",
+        "uri": "display-message-app://displayMessage?message=${Message.Text}"
+      }
+    }
+  ]
+}

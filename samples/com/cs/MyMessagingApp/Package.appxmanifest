@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:com2="http://schemas.microsoft.com/appx/manifest/com/windows10/2"
+  xmlns:com3="http://schemas.microsoft.com/appx/manifest/com/windows10/3"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="7a1b4c46-43a4-418d-a788-86eb8594442c"
+    Publisher="CN=Microsoft Corporation"
+    Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="7a1b4c46-43a4-418d-a788-86eb8594442c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>MyMessagingApp</DisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.22000.0" MaxVersionTested="10.0.22621.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0" MaxVersionTested="10.0.22621.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="MyMessagingApp"
+        Description="MyMessagingApp"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension
+             Name="com.microsoft.windows.ai.actions"
+              DisplayName="MyMessagingApp"
+              Id="mymessagingapp"
+              PublicFolder="Assets">
+            <uap3:Properties>
+              <Registration>registration.json</Registration>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+        <com2:Extension Category="windows.comServer">
+          <com2:ComServer>
+            <com3:ExeServer Executable="MyMessagingApp.exe" DisplayName="My Messaging App COM Server">
+              <com:Class Id="15271F46-7E72-4703-B511-6C22CDD17A47" DisplayName="My Messaging App COM Server" />
+            </com3:ExeServer>
+          </com2:ComServer>
+        </com2:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

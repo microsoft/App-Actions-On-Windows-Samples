@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DisplayMessageApp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "DisplayMessageApp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
