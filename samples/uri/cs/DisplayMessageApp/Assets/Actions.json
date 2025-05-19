@@ -11,7 +11,7 @@
         }
       ],
       "outputs": [],
-      "instantiationDescription": "ms-resource://Resources/ActionDescription",
+      "instantiationDescription": "ms-resource://Resources/ActionInstantiationDescription",
       "invocation": {
         "type": "Uri",
         "uri": "display-message-app://displayMessage?message=${Message.Text}"

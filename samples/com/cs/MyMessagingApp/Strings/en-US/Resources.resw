@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="inputCombination1" xml:space="preserve">
-    <value>Send message to '${Contact.Text}'</value>
+    <value>Send message to '${Contact.ShortText}'</value>
     <comment>Description for first input combination</comment>
   </data>
   <data name="inputCombination2" xml:space="preserve">
-    <value>Send message to '${Contact.Text}' with text '${Message.Text}'</value>
+    <value>Send message to '${Contact.ShortText}' with text '${Message.ShortText}'</value>
     <comment>Description for 2nd input combination</comment>
   </data>
   <data name="MessageResult_1" xml:space="preserve">
