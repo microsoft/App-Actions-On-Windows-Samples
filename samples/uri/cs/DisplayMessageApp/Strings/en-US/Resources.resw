@@ -121,6 +121,10 @@
     <value>Display a message</value>
     <comment>Description for action</comment>
   </data>
+  <data name="ActionInstantiationDescription" xml:space="preserve">
+    <value>Display message: '${Message.ShortText}'</value>
+    <comment>Description for action instantiation</comment>
+  </data>
   <data name="AppLaunchError" xml:space="preserve">
     <value>App was not launched via protocol or action wasn't detected.</value>
     <comment>Error when app fails to launch or detect action</comment>
