@@ -1,0 +1,62 @@
+﻿{
+  "version": 2,
+  "actions": [
+    {
+      "id": "ExperimentalProviderApp.Experimental.Table",
+      "description": "Experimental Actions",
+      "icon": "ms-resource://Files/Assets/StoreLogo.png",
+      "usesGenerativeAI": false,
+      "inputs": [
+        {
+          "name": "Table",
+          "kind": "Table"
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "Table" ],
+          "description": "ms-resource://Resources/TableInput"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MessageCount",
+          "kind": "Text"
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
+      }
+    },
+    {
+      "id": "ExperimentalProviderApp.Experimental.Contact",
+      "description": "Experimental Actions",
+      "icon": "ms-resource://Files/Assets/StoreLogo.png",
+      "usesGenerativeAI": false,
+      "inputs": [
+        {
+          "name": "Contact",
+          "kind": "Contact"
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "Contact" ],
+          "description": "ms-resource://Resources/ContactInput"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MessageCount",
+          "kind": "Text"
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
+      }
+    }
+    
+  ]
+}
