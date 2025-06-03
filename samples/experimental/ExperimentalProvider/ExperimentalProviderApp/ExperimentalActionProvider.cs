@@ -63,7 +63,6 @@ namespace ExperimentalProviderApp
                         return await ((App)App.Current).m_window.AddContactAsync(contactEntity);
                     }
                 }
-                
             }
 
             if (!found)
