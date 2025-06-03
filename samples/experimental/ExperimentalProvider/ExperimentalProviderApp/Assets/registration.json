@@ -3,7 +3,7 @@
   "actions": [
     {
       "id": "ExperimentalProviderApp.Experimental.Table",
-      "description": "Experimental Actions",
+      "description": "ms-resource://Resources/TableDescription",
       "icon": "ms-resource://Files/Assets/StoreLogo.png",
       "usesGenerativeAI": false,
       "inputs": [
@@ -31,7 +31,7 @@
     },
     {
       "id": "ExperimentalProviderApp.Experimental.Contact",
-      "description": "Experimental Actions",
+      "description": "ms-resource://Resources/ContactDescription",
       "icon": "ms-resource://Files/Assets/StoreLogo.png",
       "usesGenerativeAI": false,
       "inputs": [

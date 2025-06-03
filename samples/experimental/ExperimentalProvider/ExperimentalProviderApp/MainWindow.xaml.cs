@@ -50,8 +50,9 @@ namespace ExperimentalProviderApp
                     tableContent += value + " ";
                 }
                 Messages.Add(table.RowCount + " x " + table.ColumnCount + " " + resourceLoader.GetString("TableMessage") + " " + tableContent);
+                string message = resourceLoader.GetString("TableMessageResult");
 
-                tcs.SetResult(resourceLoader.GetString("MessageResult") + Messages.Count.ToString() + resourceLoader.GetString("TableMessageResult"));
+                tcs.SetResult(string.Format(message, Messages.Count.ToString()));
             });
 
             return await tcs.Task;
@@ -63,15 +64,18 @@ namespace ExperimentalProviderApp
             DispatcherQueue.TryEnqueue(() =>
             {
                 Contact contact = contactAction.Contact;
+                string messageContent = "";
+
                 if (contact.Name != null)
                 {
-                    Messages.Add(resourceLoader.GetString("ContactMessage1") + " " + contact.Name);
+                    messageContent = resourceLoader.GetString("ContactMessage1") + " " + contact.Name;
                 }
                 if (contact.Addresses.Any())
                 {
-                    Messages.Add(resourceLoader.GetString("ContactMessage2") + " " + contact.Addresses[0]);
+                    messageContent += resourceLoader.GetString("ContactMessage2") + " " + contact.Addresses[0];
                 }
-                tcs.SetResult(resourceLoader.GetString("MessageResult") + Messages.Count.ToString() + resourceLoader.GetString("ContactMessageResult"));
+                Messages.Add(messageContent);
+                tcs.SetResult(string.Format(resourceLoader.GetString("ContactMessageResult"), Messages.Count.ToString()));
             });
 
             return await tcs.Task;

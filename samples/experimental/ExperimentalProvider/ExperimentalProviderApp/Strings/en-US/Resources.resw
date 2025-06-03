@@ -125,16 +125,12 @@
     <value>Get Contact information.</value>
     <comment>Description for 2nd input combination</comment>
   </data>
-  <data name="MessageResult" xml:space="preserve">
-    <value>You have </value>
-    <comment>Short for "You have" in You have  &lt;number&gt; of messages.</comment>
-  </data>
   <data name="TableMessageResult" xml:space="preserve">
-    <value> tables.</value>
+    <value>You have {0} tables.</value>
     <comment>Output returned to caller. " tables." in "You have &lt;number&gt; tables."</comment>
   </data>
   <data name="ContactMessageResult" xml:space="preserve">
-    <value> contacts.</value>
+    <value>You have {0} contacts.</value>
     <comment>Output returned to caller. " contacts." in "You have &lt;number&gt; contacts."</comment>
   </data>
   <data name="TableMessage" xml:space="preserve">
@@ -142,7 +138,7 @@
     <comment>Part of table action display.</comment>
   </data>
   <data name="ContactMessage1" xml:space="preserve">
-    <value>Name:</value>
+    <value>Contact:</value>
     <comment>Contact entity output for first message.</comment>
   </data>
   <data name="ContactMessage2" xml:space="preserve">
@@ -152,5 +148,13 @@
   <data name="UnknownResult" xml:space="preserve">
     <value>Unknown</value>
     <comment>ActionInvocationResult returned in the error case</comment>
+  </data>
+  <data name="ContactDescription" xml:space="preserve">
+    <value>Experimental Contact Action</value>
+    <comment>Description for Contact Action</comment>
+  </data>
+  <data name="TableDescription" xml:space="preserve">
+    <value>Experimental Table Action</value>
+    <comment>Description for Table Action</comment>
   </data>
 </root>

@@ -46,22 +46,22 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
-		  <Extensions>
-			  <com2:Extension Category="windows.comServer">
-				  <com2:ComServer>
-					  <com3:ExeServer Executable="ExperimentalProviderApp.exe" DisplayName="ExperimentalActionProvider">
-						  <com:Class Id="403EA403-A3DC-44B0-B1C2-60581E6E265E" DisplayName="ExperimentalActionProvider" />
-					  </com3:ExeServer>
-				  </com2:ComServer>
-			  </com2:Extension>
-			  <uap3:Extension Category="windows.appExtension">
-				  <uap3:AppExtension Name="com.microsoft.windows.ai.actions" DisplayName="Experimental App Action Provider" Id="experimentalapp" PublicFolder="Assets">
-					  <uap3:Properties>
-						  <Registration xmlns="">registration.json</Registration>
-					  </uap3:Properties>
-				  </uap3:AppExtension>
-			  </uap3:Extension>
-		  </Extensions>
+      <Extensions>
+        <com2:Extension Category="windows.comServer">
+          <com2:ComServer>
+            <com3:ExeServer Executable="ExperimentalProviderApp.exe" DisplayName="ExperimentalActionProvider">
+              <com:Class Id="403EA403-A3DC-44B0-B1C2-60581E6E265E" DisplayName="ExperimentalActionProvider" />
+            </com3:ExeServer>
+          </com2:ComServer>
+        </com2:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="com.microsoft.windows.ai.actions" DisplayName="Experimental App Action Provider" Id="experimentalapp" PublicFolder="Assets">
+            <uap3:Properties>
+              <Registration>registration.json</Registration>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+      </Extensions>
     </Application>
   </Applications>
 

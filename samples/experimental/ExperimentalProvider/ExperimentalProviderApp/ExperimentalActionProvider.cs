@@ -23,15 +23,22 @@ namespace ExperimentalProviderApp
         private static async Task InvokeAsyncHelper(ActionInvocationContext context)
         {
             ResourceLoader resourceLoader = new();
-            string result = resourceLoader.GetString("UnknownResult");
+            string result = await GetContextResult(context);
 
-            if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
+            ActionEntity responseEntity = context.EntityFactory.CreateTextEntity(result);
+            context.SetOutputEntity("MessageCount", responseEntity);
+        }
+
+        private static async Task<string> GetContextResult(ActionInvocationContext context)
+        {
+            ResourceLoader resourceLoader = new();
+            bool found = false;
+            NamedActionEntity[] inputs = context.GetInputEntities();
+            foreach (NamedActionEntity namedEntity in inputs)
             {
-                bool found = false;
-                NamedActionEntity[] inputs = context.GetInputEntities();
-                foreach (NamedActionEntity namedEntity in inputs)
+                if(context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
                 {
-                    if(namedEntity.Name.Equals("Table") && namedEntity.Entity.Kind == ActionEntityKind.Table)
+                    if (namedEntity.Name.Equals("Table") && namedEntity.Entity.Kind == ActionEntityKind.Table)
                     {
                         found = true;
 
@@ -39,21 +46,11 @@ namespace ExperimentalProviderApp
 
                         await EnsureAppIsInitialized();
 
-                        result = await ((App)App.Current).m_window.AddTableAsync(tableEntity);
+                        string value = await ((App)App.Current).m_window.AddTableAsync(tableEntity);
+                        return value;
                     }
                 }
-
-                if (!found)
-                {
-                    context.ExtendedError = new KeyNotFoundException();
-                    context.Result = ActionInvocationResult.Unsupported;
-                }
-            }
-            else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Contact", StringComparison.Ordinal))
-            {
-                bool found = false;
-                NamedActionEntity[] inputs = context.GetInputEntities();
-                foreach (NamedActionEntity namedEntity in inputs)
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Contact", StringComparison.Ordinal))
                 {
                     if (namedEntity.Name.Equals("Contact") && namedEntity.Entity.Kind == ActionEntityKind.Contact)
                     {
@@ -63,24 +60,19 @@ namespace ExperimentalProviderApp
 
                         await EnsureAppIsInitialized();
 
-                        result = await ((App)App.Current).m_window.AddContactAsync(contactEntity);
+                        return await ((App)App.Current).m_window.AddContactAsync(contactEntity);
                     }
                 }
-
-                if (!found)
-                {
-                    context.ExtendedError = new KeyNotFoundException();
-                    context.Result = ActionInvocationResult.Unsupported;
-                }
+                
             }
-            else
+
+            if (!found)
             {
-                context.ExtendedError = new NotImplementedException();
+                context.ExtendedError = new KeyNotFoundException();
                 context.Result = ActionInvocationResult.Unsupported;
             }
 
-            ActionEntity responseEntity = context.EntityFactory.CreateTextEntity(result);
-            context.SetOutputEntity("MessageCount", responseEntity);
+            return resourceLoader.GetString("UnknownResult");
         }
 
         private static async Task EnsureAppIsInitialized()

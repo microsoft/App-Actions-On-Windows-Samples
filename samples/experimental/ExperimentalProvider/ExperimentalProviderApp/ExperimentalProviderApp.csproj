@@ -6,13 +6,13 @@
     <RootNamespace>ExperimentalApp</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x64;ARM64</Platforms>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
-	<DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	<WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,10 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
-	  <PackageReference Include="Shmuelie.WinRTServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+    <PackageReference Include="Shmuelie.WinRTServer" Version="2.1.1" />
   </ItemGroup>
   
   <ItemGroup>
