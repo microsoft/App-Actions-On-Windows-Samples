@@ -1,0 +1,150 @@
+<!-- Copyright (C) Microsoft Corporation. All rights reserved. -->
+@page "/"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<PageTitle>NotFlix - Watch TV Shows Online, Watch Movies Online</PageTitle>
+
+<div class="poster_container">
+    <img src="images/HomeBackground.jpg" alt="Home Background" class="poster_img" />
+
+    <div class="above_homepage_poster_shade">
+        <div class="above_homepage_poster_container">
+            <div class="above_homepage_poster_text">
+                <p>
+                    <h1>Unlimited movies, TV shows, and more</h1>
+                </p>
+
+                <p style="color: silver">
+                    <h2 color="white">Starts at $7.99. Cancel anytime.</h2>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="watch_list_container">
+
+    <div class="section_header">
+        <h1>My WatchList</h1>
+    </div>
+
+    @foreach (Movie watchListMovie in this.WatchListMovies)
+    {
+        <div class="movie_poster_small">
+            <a href="./watchmovie?title=@Uri.EscapeDataString(watchListMovie.Title)">
+                <img src="@watchListMovie.Poster" alt="@watchListMovie.Title" class="homepage_small_poster" />
+                <div class="movie_poster_small_title">
+                    @watchListMovie.Title
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+<div class="most_watched_container">
+
+    <div class="section_header">
+        <h1>Most Watched</h1>
+    </div>
+
+    @foreach (Movie movie in this.AllMovies)
+    {
+        <div class="movie_poster_small">
+            <a href="./watchmovie?title=@Uri.EscapeDataString(movie.Title)">
+                <img src="@movie.Poster" alt="@movie.Title" class="homepage_small_poster" />
+                <div class="movie_poster_small_title">
+                    @movie.Title
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+@code
+{
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "protocol")]
+    public String Protocol { get; set; } = string.Empty;
+
+    private List<Movie> AllMovies = new();
+
+    private List<Movie> WatchListMovies = new();
+
+    private MovieRetriever MovieRetriever = new();
+
+    protected override async void OnInitialized()
+    {
+        await GetWatchListMovies();
+
+        if (!string.IsNullOrWhiteSpace(Protocol))
+        {
+            string decodedProtocol = Uri.UnescapeDataString(Protocol);
+            if (decodedProtocol[decodedProtocol.Length - 1] == '/')
+            {
+                decodedProtocol = decodedProtocol.Substring(0, decodedProtocol.Length - 1);
+            }
+
+            if (!string.IsNullOrEmpty(decodedProtocol))
+            {
+                try
+                {
+                    Uri uri = new Uri(decodedProtocol);
+
+                    if (decodedProtocol.Contains("watchmovie", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        string? movieTitle = HttpUtility.ParseQueryString(uri.Query).Get("title");
+
+                        if (!string.IsNullOrEmpty(movieTitle))
+                        {
+                            NavigationManager.NavigateTo("/watchmovie?title=" + movieTitle, true);
+                        }
+                    }
+                    else if (decodedProtocol.Contains("addToWatchlist", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        string? movieTitle = HttpUtility.ParseQueryString(uri.Query).Get("title");
+                        if (!string.IsNullOrEmpty(movieTitle))
+                        {
+                            await JS.InvokeVoidAsync("addMovieToWatchListCookie", movieTitle);
+                            // Reload movies as a new one was added to the watch list
+                            await GetWatchListMovies();
+                            ShowAllMovies();
+                        }
+                    }
+                }
+                catch
+                {
+                    ShowAllMovies();
+                }
+            }
+        }
+        else
+        {
+            ShowAllMovies();
+        }
+    }
+
+    private async Task GetWatchListMovies()
+    {
+        WatchListMovies.Clear();
+        string watchList = await JS.InvokeAsync<string>("getWatchListCookie");
+        if (!string.IsNullOrWhiteSpace(watchList))
+        {
+            string[] movies = watchList.Split("|");
+            foreach (string movieTitle in movies)
+            {
+                Movie? movie = MovieRetriever.GetMovieFromTitle(movieTitle);
+                if (movie != null)
+                {
+                    WatchListMovies.Add(movie);
+                }
+            }
+        }
+    }
+
+    private void ShowAllMovies()
+    {
+        AllMovies = MovieRetriever.GetAllMovies();
+        StateHasChanged();
+    }
+}

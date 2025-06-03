@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "actions": [
+    {
+      "id": "NotFlix.WatchMovie",
+      "description": "Watch a movie on NotFlix",
+      "kind": "Search",
+      "inputs": [
+        {
+          "name": "Movie",
+          "kind": "Text"
+        }
+      ],
+      "outputs": [],
+      "invocation": {
+        "type": "Uri",
+        "uri": "web+notflix://watchmovie?title=${Movie.Text}"
+      },
+      "inputCombinations": [
+        {
+          "inputs": [ "Movie" ],
+          "description": "Watch '${Movie.Text}' on NotFlix"
+        }
+      ]
+    },
+    {
+      "id": "NotFlix.AddMovieToWatchList",
+      "description": "Add a movie to your watchlist on NotFlix",
+      "kind": "Search",
+      "inputs": [
+        {
+          "name": "Movie",
+          "kind": "Text"
+        }
+      ],
+      "outputs": [],
+      "invocation": {
+        "type": "Uri",
+        "uri": "web+notflix://addToWatchlist?title=${Movie.Text}"
+      },
+      "inputCombinations": [
+        {
+          "inputs": [ "Movie" ],
+          "description": "Watch '${Movie.Text}' on NotFlix"
+        }
+      ]
+    }
+  ]
+}

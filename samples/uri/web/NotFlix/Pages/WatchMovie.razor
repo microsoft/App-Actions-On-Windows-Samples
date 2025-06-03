@@ -1,0 +1,57 @@
+<!-- Copyright (C) Microsoft Corporation. All rights reserved. -->
+@page "/WatchMovie"
+
+<PageTitle>Watch @Title | NotFlix Official Site</PageTitle>
+
+@if (Movie != null)
+{
+    <div class="poster_container">
+        <img src="@Movie.Poster" alt="@Movie.Title poster" class="poster_img" />
+
+        <div class="above_poster_container">
+            <div class="above_poster_text">
+                <h2>@Movie.Title</h2>
+
+                <p style="color: silver">
+                    @Movie.ReleaseYear | [@Movie.Rating] | @(Movie.RunningTime / 60)h @(Movie.RunningTime % 60)m | @string.Join(", ", Movie.Genres)
+                </p>
+
+                <p>
+                    @Movie.Description
+                </p>
+
+                <p>
+                    Starring:@string.Join(", ", Movie.Starring)
+                </p>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="poster_container">
+        <img src="images/HomeBackground.jpg" alt="Home Background" class="poster_img" />
+
+        <div class="above_poster_container">
+            <div class="above_poster_text">
+                <h2>Couldn't find that movie :(</h2>
+            </div>
+        </div>
+    </div>
+}
+
+@code 
+{
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "title")]
+    public String Title { get; set; } = string.Empty;
+
+    private MovieRetriever movieRetriever = new();
+
+    public Movie? Movie;
+
+    protected override void OnParametersSet()
+    {
+        Movie = this.movieRetriever.GetMovieFromTitle(Title);
+    }   
+}

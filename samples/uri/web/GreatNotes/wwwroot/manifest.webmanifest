@@ -1,0 +1,44 @@
+{
+    "name": "Samples.Greatnotes",
+    "short_name": "Greatnotes",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#03173d",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "protocol_handlers": [
+        {
+            "protocol": "web+gnotes",
+            "url": "/?protocol=%s"
+        }
+    ],
+    "share_target": {
+        "action": "/share-target/",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url",
+            "files": [
+                {
+                    "name": "media",
+                    "accept": [ "image/*", "video/*", "audio/*", ".png", ".jpeg", ".pdf", ".txt", ".doc", ".docx", ".json" ]
+                }
+            ]
+        }
+    }
+}

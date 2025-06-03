@@ -1,0 +1,297 @@
+﻿<!-- Copyright (C) Microsoft Corporation. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Greatnotes</title>
+    <base href="/" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="ActionFXRuntime.Greatnotes.styles.css" rel="stylesheet" />
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app" class="app">
+        <div class="nav_panel">
+            <h1>Greatnotes</h1>
+        </div>
+
+        <div class="content_panel">
+
+            <div id="no_file_selected_container" class="no_file_selected_container" style="flex-direction: column;">
+
+                <div id="home_header_container">
+                    <h1>Documents</h1>
+                    <hr />
+                </div>
+
+                <div id="home_container">
+                    <div id="empty_library_container">
+                        <img src="images/greatnotes_home.png" id="home_img" />
+                        <h3>Ready to fill your library with life?</h3>
+                        <p>Add a notebook, import a document, or create a folder to get started</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="file_selected_container" class="file_selected_container" style="display: none; flex-direction: column;">
+
+                <div id="file_name_panel" class="file_name_panel">
+                    File.name
+                </div>
+
+                <div class="media_content">
+                    <div id="share-content" class="share-content"></div>
+                    <div class="media-preview-area" style="display: flex; flex-direction: column;">
+                        <div class="preview-container" style="display: flex; flex-direction: column;">
+                            <div id="image-preview" class="preview-section">
+                                <h4>Image</h4>
+                                <div class="image-display" id="image-display">
+                                    <div class="image-container" id="image-container">
+                                        <img id="loaded_image" src="" alt="" title="" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="pdf-preview" class="pdf-preview">
+                                <h4>Pdf</h4>
+                                <div class="pdf-display" id="pdf-display">
+                                    <div class="pdf-container" id="pdf-container">
+                                        <object id="pdf-object" data=""
+                                                type="application/pdf"
+                                                width="100%" height="700px">
+                                        </object>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="file-preview" class="file-section" style="flex-direction: column;">
+                                <h4>Other kind of file</h4>
+                                <div class="json-display"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="protocol_launch" class="protocol_launch">
+                    Protocol
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        // Handle protocol handler
+        function handleProtocolLaunch() {
+            const params = new URLSearchParams(window.location.search);
+            const protocolData = params.get('protocol');
+
+            if (protocolData) {
+                const protocolContent = document.getElementById('protocol_launch');
+                protocolContent.innerHTML = `
+                                  <div class="received-data">
+                                    Received Protocol Data: ${protocolData}
+                                  </div>
+                                `;
+            }
+        }
+
+        // Handle files from share target API
+        async function handleSharedFiles(fileData) {
+            const no_files_container = document.getElementById("no_file_selected_container");
+            const file_selected_container = document.getElementById("file_selected_container");
+            toggleVisibility(no_files_container, false);
+            toggleVisibility(file_selected_container, true);
+
+            try {
+                const imageDisplay = document.querySelector('.image-display');
+                const jsonDisplay = document.querySelector('.json-display');
+                const pdfDisplay = document.querySelector('.pdf-display');
+
+                const fileContainer = document.getElementById("file-preview");
+                const imageContainer = document.getElementById("image-preview");
+                const pdfContainer = document.getElementById("pdf-preview");
+
+                toggleVisibility(fileContainer, false);
+                toggleVisibility(imageContainer, false);
+                toggleVisibility(pdfContainer, false);
+
+                if (!imageDisplay || !jsonDisplay || !pdfDisplay) {
+                    console.error('Preview elements not found');
+                    return;
+                }
+
+                console.log('Handling shared files:', fileData);
+
+                for (const file of fileData) {
+                    try {
+                        // Create a blob from the array buffer
+                        const blob = new Blob([file.buffer], { type: file.type });
+                        const fileURL = URL.createObjectURL(blob);
+                        console.log('Created blob URL for:', file.name, fileURL);
+
+                        if (file.type.startsWith('image/')) {
+                            toggleVisibility(imageContainer);
+
+                            const img = document.getElementById('loaded_image');
+                            img.src = fileURL;
+                            img.alt = file.name;
+                            img.title = file.name;
+                        }
+                        else if (file.type.startsWith("application/pdf"))
+                        {
+                            toggleVisibility(pdfContainer);
+
+                            const pdfObject = document.getElementById('pdf-object');
+                            pdfObject.data = fileURL;
+                        }
+                        else if (file.type.startsWith("application/json") || file.type.startsWith("text/plain")) {
+                            toggleVisibility(fileContainer);
+
+                            fetch(fileURL)
+                                .then(response => response.blob())
+                                .then(blob => {
+                                    const reader = new FileReader();
+                                    reader.onload = () => {
+                                        const contents = reader.result;
+                                        const jsonContainer = document.createElement('pre');
+                                        jsonContainer.innerHTML = contents;
+                                        jsonDisplay.appendChild(jsonContainer);
+                                    };
+                                    reader.readAsText(blob); // You can use readAsArrayBuffer or readAsDataURL depending on your needs
+                                })
+                                .catch(error => console.error('Error fetching Blob URL:', error));
+                        }
+                    } catch (error) {
+                        console.error('Error processing file:', file.name, error);
+                    }
+                }
+            } catch (error) {
+                console.error('Error handling shared files:', error);
+            }
+        }
+
+        // Handle shared data
+        function handleSharedData(data) {
+            try {
+                console.log("Title: " + data.title);
+                console.log("Text: " + data.text);
+                console.log("URL: " + data.url);
+
+                const fileNamePanel = document.getElementById("file_name_panel");
+                fileNamePanel.innerHTML = "";
+
+                const protocolPanel = document.getElementById("protocol_launch");
+
+                const fileNameElement = document.createElement("h2");
+                fileNameElement.innerHTML = extractFileName(data.text);
+                fileNamePanel.appendChild(fileNameElement);
+                protocolPanel.innerHTML = data.url;                
+            } catch (error) {
+                console.error('Error handling shared data:', error);
+                const shareContent = document.getElementById('share-content');
+                if (shareContent) {
+                    shareContent.innerHTML = `
+                        <div class="error-message">
+                          Error displaying shared content. Please try again.
+                        </div>
+                      `;
+                }
+            }
+        }
+
+        // Function to toggle ui element visibility
+        function toggleVisibility(element, requestedVisibility = null) {
+            if ((requestedVisibility === null && (element.style.display === 'none')) || requestedVisibility === true) {
+                element.style.display = 'flex';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        function extractFileName(valueSetJson) {
+            const jsonObject = JSON.parse(valueSetJson);
+            console.log(jsonObject);
+
+            const fileNode = jsonObject["File"];
+            console.log(fileNode);
+
+            const valueNode = fileNode["Value"];
+            console.log(valueNode);
+
+            let fileName = "";
+            try {
+                fileName = valueNode["FileName"];
+            }
+            catch {
+                fileName = valueNode["Path"];
+            }
+            console.log(fileName);
+
+            const lastSlashPos = fileName.lastIndexOf("\\");
+            return fileName.substring(lastSlashPos + 1);
+        }
+
+        // Listen for messages from service worker
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.type === 'SHARE_TARGET_DATA') {
+                console.log('Received message from service worker:', event.data);
+
+                // Handle text data
+                handleSharedData(event.data.data);
+
+                // Handle files if present
+                if (event.data.files && Array.isArray(event.data.files)) {
+                    handleSharedFiles(event.data.files);
+                }
+
+                // Cleanup on page unload
+                window.addEventListener('unload', () => {
+                    try {
+                        const elements = document.querySelectorAll('img[src^="blob:"], video[src^="blob:"]');
+                        elements.forEach(element => {
+                            if (element.src.startsWith('blob:')) {
+                                URL.revokeObjectURL(element.src);
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error cleaning up blob URLs:', error);
+                    }
+                });
+            }
+        });
+
+        // Register protocol handler
+        if ('registerProtocolHandler' in navigator) {
+            try {
+                navigator.registerProtocolHandler('web+gnotes',
+                    `${window.location.origin}/?protocol=%s`,
+                    'PWA Protocol Handler'
+                );
+            } catch (err) {
+                console.error('Protocol handler registration failed:', err);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            handleProtocolLaunch();
+        });
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(registration => console.log('ServiceWorker registered'))
+                .catch(err => console.error('ServiceWorker registration failed:', err));
+        }
+    </script>
+</body>
+
+</html>

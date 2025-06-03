@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:rescap3="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities/3" xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2" IgnorableNamespaces="uap uap3 rescap desktop2">
+  <Identity Name="net.azurestaticapps.6.ambitious-flower-0ec6e8610.e" Publisher="CN=3a54a224-05dd-42aa-85bd-3f3c1478fdca, OID.2.25.311729368913984317654407730594956997722=1" Version="1.0.1.0" ProcessorArchitecture="neutral"/>
+  <Properties>
+    <DisplayName>Greatnotes</DisplayName>
+    <PublisherDisplayName>Contoso, Inc.</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.19041.0"/>
+    <TargetDeviceFamily Name="Windows.Holographic" MinVersion="10.0.19041.0" MaxVersionTested="10.0.19041.0"/>
+    <uap10:HostRuntimeDependency Name="Microsoft.MicrosoftEdge.Canary" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" MinVersion="1.0.0.0"/>
+  </Dependencies>
+  <Resources>
+    <Resource Language="EN-US"/>
+  </Resources>
+  <Applications>
+    <Application Id="App" uap10:HostId="PWA" uap10:Parameters="--app-id=nnahiplijjbmmangccclmnelgfiomheg --ip-edge-aumid=Microsoft.MicrosoftEdge.Canary_8wekyb3d8bbwe!MSEDGE --app-fallback-url=https://ambitious-flower-0ec6e8610.6.azurestaticapps.net/ --display-mode=standalone --windows-store-app">
+      <uap:VisualElements DisplayName="Greatnotes" Description="Greatnotes" BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Square71x71Logo="Images\SmallTile.png" Wide310x150Logo="Images\Wide310x150Logo.png" Square310x310Logo="Images\LargeTile.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo"/>
+            <uap:ShowOn Tile="wide310x150Logo"/>
+            <uap:ShowOn Tile="square310x310Logo"/>
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.shareTarget" uap10:HostId="PWA" uap10:Parameters="--app-id=nnahiplijjbmmangccclmnelgfiomheg --ip-edge-aumid=Microsoft.MicrosoftEdge.Canary_8wekyb3d8bbwe!MSEDGE --app-fallback-url=https://ambitious-flower-0ec6e8610.6.azurestaticapps.net/ --display-mode=standalone --windows-store-app">
+          <uap:ShareTarget>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.docx</uap:FileType>
+              <uap:FileType>.txt</uap:FileType>
+              <uap:FileType>.aiff</uap:FileType>
+              <uap:FileType>.mid</uap:FileType>
+              <uap:FileType>.oga</uap:FileType>
+              <uap:FileType>.wma</uap:FileType>
+              <uap:FileType>.weba</uap:FileType>
+              <uap:FileType>.avi</uap:FileType>
+              <uap:FileType>.m4v</uap:FileType>
+              <uap:FileType>.webm</uap:FileType>
+              <uap:FileType>.heic</uap:FileType>
+              <uap:FileType>.tiff</uap:FileType>
+              <uap:FileType>.mpg</uap:FileType>
+              <uap:FileType>.doc</uap:FileType>
+              <uap:FileType>.tif</uap:FileType>
+              <uap:FileType>.mpeg</uap:FileType>
+              <uap:FileType>.pjp</uap:FileType>
+              <uap:FileType>.heif</uap:FileType>
+              <uap:FileType>.bmp</uap:FileType>
+              <uap:FileType>.pjpeg</uap:FileType>
+              <uap:FileType>.svg</uap:FileType>
+              <uap:FileType>.opus</uap:FileType>
+              <uap:FileType>.png</uap:FileType>
+              <uap:FileType>.m4a</uap:FileType>
+              <uap:FileType>.asx</uap:FileType>
+              <uap:FileType>.mp4</uap:FileType>
+              <uap:FileType>.webp</uap:FileType>
+              <uap:FileType>.json</uap:FileType>
+              <uap:FileType>.flac</uap:FileType>
+              <uap:FileType>.ogm</uap:FileType>
+              <uap:FileType>.wav</uap:FileType>
+              <uap:FileType>.ico</uap:FileType>
+              <uap:FileType>.mov</uap:FileType>
+              <uap:FileType>.apng</uap:FileType>
+              <uap:FileType>.au</uap:FileType>
+              <uap:FileType>.xbm</uap:FileType>
+              <uap:FileType>.avif</uap:FileType>
+              <uap:FileType>.mp3</uap:FileType>
+              <uap:FileType>.jpeg</uap:FileType>
+              <uap:FileType>.ogv</uap:FileType>
+              <uap:FileType>.jfif</uap:FileType>
+              <uap:FileType>.jpg</uap:FileType>
+              <uap:FileType>.ogg</uap:FileType>
+              <uap:FileType>.svgz</uap:FileType>
+              <uap:FileType>.pdf</uap:FileType>
+              <uap:FileType>.gif</uap:FileType>
+              <uap:FileType>.wmv</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:DataFormat>Text</uap:DataFormat>
+            <uap:DataFormat>Uri</uap:DataFormat>
+          </uap:ShareTarget>
+        </uap:Extension>
+        <uap:Extension Category="windows.protocol" uap10:HostId="PWA" uap10:Parameters="--app-id=nnahiplijjbmmangccclmnelgfiomheg --ip-edge-aumid=Microsoft.MicrosoftEdge.Canary_8wekyb3d8bbwe!MSEDGE --app-fallback-url=https://ambitious-flower-0ec6e8610.6.azurestaticapps.net/ --display-mode=standalone --windows-store-app --web-app-url-protocol-handler=&quot;%1&quot;">
+          <uap:Protocol Name="web+gnotes"/>
+        </uap:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="microsoft.store.edgePWA" Id="MicrosoftEdge" DisplayName="Microsoft Edge" Description="Microsoft Edge" PublicFolder="Public"/>
+        </uap3:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="com.ms.webapp.internals.0" Id="e.0168e6ce0-rewolf-suoitibma.6.sppacita" PublicFolder="Public" DisplayName="Edge WebApp Internals" Description="parameters?--app-id=nnahiplijjbmmangccclmnelgfiomheg --ip-edge-aumid=Microsoft.MicrosoftEdge.Canary_8wekyb3d8bbwe!MSEDGE --app-fallback-url=https://ambitious-flower-0ec6e8610.6.azurestaticapps.net/ --windows-store-app;profile-directory?Default;start-url?https://ambitious-flower-0ec6e8610.6.azurestaticapps.net/;long-package-id-name?net.azurestaticapps.6.ambitious-flower-0ec6e8610.e;handlers?share_target,protocol_handlers"/>
+        </uap3:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="com.ms.webapp.internals.4" Id="e.0168e6ce0-rewolf-suoitibma.6.sppacita" PublicFolder="Public" DisplayName="Edge External WebApp Internals" Description="parameters?--app-id=nnahiplijjbmmangccclmnelgfiomheg --ip-edge-aumid=Microsoft.MicrosoftEdge.Canary_8wekyb3d8bbwe!MSEDGE --app-fallback-url=https://ambitious-flower-0ec6e8610.6.azurestaticapps.net/ --display-mode=standalone --windows-store-app;profile-directory?Default;start-url?https://ambitious-flower-0ec6e8610.6.azurestaticapps.net/;long-package-id-name?net.azurestaticapps.6.ambitious-flower-0ec6e8610.e;handlers?share_target,protocol_handlers"/>
+        </uap3:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="com.microsoft.windows.ai.actions" Id="e.0168e6ce0-rewolf-suoitibma.6.sppacita" DisplayName="GreatNotesAction" Description="GreatNotesAction" PublicFolder=".well-known">
+            <uap3:Properties>
+              <Registration>ActionsManifest.json</Registration>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust"/>
+  </Capabilities>
+</Package>

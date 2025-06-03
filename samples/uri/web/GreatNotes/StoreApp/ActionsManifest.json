@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "actions": [
+    {
+      "id": "AProtocol.OpenImage",
+      "description": "Open an image on the Protocol app",
+      "kind": "Search",
+      "inputs": [
+        {
+          "name": "File",
+          "kind": "Photo"
+        }
+      ],
+      "outputs": [],
+      "invocation": {
+        "type": "Uri",
+        "uri": "web+pwa://watchmovie"
+      },
+      "inputCombinations": [
+        {
+          "inputs": [ "File" ],
+          "description": "Photo to open in the Protocol app"
+        }
+      ]
+    },
+    {
+      "id": "Greatnotes.MakeNotes.File",
+      "description": "Make notes in a file.",
+      "kind": "Search",
+      "inputs": [
+        {
+          "name": "File",
+          "kind": "File"
+        }
+      ],
+      "outputs": [],
+      "instantiationDescription": "Make notes in a file.",
+      "invocation": {
+        "type": "Uri",
+        "uri": "web+gnotes://makenotes"
+      },
+      "inputCombinations": [
+        {
+          "inputs": [ "File" ],
+          "description": "File to be opened in Greatnotes."
+        }
+      ]
+    },
+    {
+      "id": "Greatnotes.MakeNotes.Photo",
+      "description": "Make notes in a photo.",
+      "kind": "Search",
+      "inputs": [
+        {
+          "name": "File",
+          "kind": "Photo"
+        }
+      ],
+      "outputs": [],
+      "instantiationDescription": "Make notes in a photo.",
+      "invocation": {
+        "type": "Uri",
+        "uri": "web+gnotes://makenotes"
+      },
+      "inputCombinations": [
+        {
+          "inputs": [ "File" ],
+          "description": "Photo to be opened in Greatnotes."
+        }
+      ]
+    },
+    {
+      "id": "Greatnotes.MakeNotes.Document",
+      "description": "Make notes in a document.",
+      "kind": "Search",
+      "inputs": [
+        {
+          "name": "File",
+          "kind": "Document"
+        }
+      ],
+      "outputs": [],
+      "instantiationDescription": "Make notes in a document.",
+      "invocation": {
+        "type": "Uri",
+        "uri": "web+gnotes://makenotes"
+      },
+      "inputCombinations": [
+        {
+          "inputs": [ "File" ],
+          "description": "Document to be opened in Greatnotes."
+        }
+      ]
+    }
+  ]
+}
