@@ -4,7 +4,6 @@
     {
       "id": "AProtocol.OpenImage",
       "description": "Open an image on the Protocol app",
-      "kind": "Search",
       "inputs": [
         {
           "name": "File",
@@ -26,7 +25,6 @@
     {
       "id": "Greatnotes.MakeNotes.File",
       "description": "Make notes in a file.",
-      "kind": "Search",
       "inputs": [
         {
           "name": "File",
@@ -49,7 +47,6 @@
     {
       "id": "Greatnotes.MakeNotes.Photo",
       "description": "Make notes in a photo.",
-      "kind": "Search",
       "inputs": [
         {
           "name": "File",
@@ -72,7 +69,6 @@
     {
       "id": "Greatnotes.MakeNotes.Document",
       "description": "Make notes in a document.",
-      "kind": "Search",
       "inputs": [
         {
           "name": "File",

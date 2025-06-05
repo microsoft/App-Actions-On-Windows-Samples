@@ -3,7 +3,7 @@
 namespace Samples.NotFlix;
 
 /// <summary>
-/// 
+/// Handles the retrieval of movies from the static database of movies.
 /// </summary>
 public class MovieRetriever
 {

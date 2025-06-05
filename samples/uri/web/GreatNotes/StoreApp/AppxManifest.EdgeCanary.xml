@@ -3,7 +3,7 @@
   <Identity Name="net.azurestaticapps.6.ambitious-flower-0ec6e8610.e" Publisher="CN=3a54a224-05dd-42aa-85bd-3f3c1478fdca, OID.2.25.311729368913984317654407730594956997722=1" Version="1.0.1.0" ProcessorArchitecture="neutral"/>
   <Properties>
     <DisplayName>Greatnotes</DisplayName>
-    <PublisherDisplayName>Contoso, Inc.</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

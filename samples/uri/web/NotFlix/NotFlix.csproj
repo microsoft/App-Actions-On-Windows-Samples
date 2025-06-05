@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-	<RootNamespace>Samples.NotFlix</RootNamespace>
+    <RootNamespace>Samples.NotFlix</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

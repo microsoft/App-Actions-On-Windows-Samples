@@ -4,7 +4,6 @@
     {
       "id": "NotFlix.WatchMovie",
       "description": "Watch a movie on NotFlix",
-      "kind": "Search",
       "inputs": [
         {
           "name": "Movie",
@@ -26,7 +25,6 @@
     {
       "id": "NotFlix.AddMovieToWatchList",
       "description": "Add a movie to your watchlist on NotFlix",
-      "kind": "Search",
       "inputs": [
         {
           "name": "Movie",

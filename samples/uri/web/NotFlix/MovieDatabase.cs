@@ -3,7 +3,7 @@
 namespace Samples.NotFlix;
 
 /// <summary>
-/// Database of movies. We may read this list from a json file.
+/// Static database of movies.
 /// </summary>
 public class MovieDatabase
 {

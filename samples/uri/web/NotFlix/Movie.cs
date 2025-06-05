@@ -2,6 +2,9 @@
 
 namespace Samples.NotFlix;
 
+/// <summary>
+/// Represents a movie in the NotFlix application.
+/// </summary>
 public class Movie
 {
     /// <summary>
