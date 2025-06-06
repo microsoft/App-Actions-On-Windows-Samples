@@ -103,14 +103,14 @@ public class MovieDatabase
                 },
                 new()
                 {
-                    Title = "The Mansion Ruse",
-                    Description = "A kind-hearted lady is hired to clean a luxurious mansion, only to discover it's a setup by her employer and a scammer to drive her mad and steal her inheritance.",
+                    Title = "Grandpa John's Prehistoric Paradise",
+                    Description = "A visionary entrepreneur, Grandpa John, realizes his lifelong dream—a magnificent theme park filled with colossal, genetically resurrected lizards. But chaos erupts when a rogue hacker disables the park’s security systems. Will Grandpa John’s dream turn into an unforgettable nightmare?",
                     ReleaseYear = 1998,
                     Rating = "PG-13",
                     RunningTime = 152,
-                    Genres = ["Romance", "Comedy"],
-                    Starring = ["Anastasia Ivanova", "Ivan Petrov", "Irina Pavlova"],
-                    Poster = "images/posters/themansionruse.jpeg",
+                    Genres = ["Action", "Comedy"],
+                    Starring = ["Ivan Petrov", "Irina Pavlova"],
+                    Poster = "images/posters/grandpajohn.jpeg",
                 },
                 new()
                 {
