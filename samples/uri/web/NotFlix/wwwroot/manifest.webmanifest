@@ -1,0 +1,40 @@
+{
+    "name": "Samples.NotFlix",
+    "short_name": "NotFlix",
+    "description": "A PWA demonstrating protocol handlers and custom entities",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#03173d",
+    "icons": [
+        {
+            "src": "icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any"
+        },
+        {
+            "src": "icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "any"
+        }
+    ],
+    "protocol_handlers": [
+        {
+            "protocol": "web+notflix",
+            "url": "/?protocol=%s"
+        }
+    ],
+    "share_target": {
+        "action": "/share-target/",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    }
+}

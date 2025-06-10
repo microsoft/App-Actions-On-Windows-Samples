@@ -1,0 +1,1 @@
+The files in this directory exemplify how the AppxManifest for a Progressive Web App integrated with the actions runtime platform would look like.
