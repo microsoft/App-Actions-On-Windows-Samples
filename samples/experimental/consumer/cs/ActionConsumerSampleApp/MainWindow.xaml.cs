@@ -72,6 +72,7 @@ namespace ActionConsumerSampleApp
                         ActionManager.Instance.EntityFactory.CreateTextEntity(this.InputText.Text),
                     };
 
+                    // Note: GetActionsForInputs will be available in a future release.
                     // Return the the actions that are available for the specified file entity type
                     Windows.AI.Actions.Hosting.ActionInstance[] actionInstantiations = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(inputs.ToArray());
 
