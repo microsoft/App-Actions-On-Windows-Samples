@@ -92,6 +92,11 @@
           "type": "string",
           "description": "Description of instantiation"
         },
+        "allowedAppInvokers": {
+          "type": "array",
+          "description": "List of App User Model IDs of apps that are allowed invoke this action",
+          "items": { "type" : "string" }
+        },
         "outputs": {
           "type": "array",
           "description": "Current output definitions",
