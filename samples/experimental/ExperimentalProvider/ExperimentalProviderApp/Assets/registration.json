@@ -18,6 +18,7 @@
           "description": "ms-resource://Resources/TableInput"
         }
       ],
+      "allowedAppInvokers": ["Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App"],
       "outputs": [
         {
           "name": "MessageCount",
@@ -46,6 +47,7 @@
           "description": "ms-resource://Resources/ContactInput"
         }
       ],
+      "allowedAppInvokers": ["Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App"],
       "outputs": [
         {
           "name": "MessageCount",

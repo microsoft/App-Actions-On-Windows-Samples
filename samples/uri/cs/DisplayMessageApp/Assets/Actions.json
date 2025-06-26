@@ -16,6 +16,23 @@
         "type": "Uri",
         "uri": "display-message-app://displayMessage?message=${Message.Text}"
       }
+    },
+    {
+      "id": "Samples.UriActions.DisplayMessageWithAllowedAppInvokersField",
+      "description": "ms-resource://Resources/ActionDescription",
+      "inputs": [
+        {
+          "name": "Message",
+          "kind": "Text"
+        }
+      ],
+      "allowedAppInvokers": ["Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App"],
+      "outputs": [],
+      "instantiationDescription": "ms-resource://Resources/ActionInstantiationDescription",
+      "invocation": {
+        "type": "Uri",
+        "uri": "display-message-app://displayMessage?message=${Message.Text}"
+      }
     }
   ]
 }
