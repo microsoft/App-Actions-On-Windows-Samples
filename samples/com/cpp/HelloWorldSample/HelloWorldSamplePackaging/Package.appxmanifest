@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="HelloWorldSample"
+    Publisher="CN=Microsoft Corporation"
+    Version="1.0.0.0" />
+
+  <Properties>
+    <DisplayName>HelloWorldSamplePackaging</DisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="HelloWorldSample"
+        Description="Hello World Sample"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
+      </uap:VisualElements>
+		
+	    <Extensions>
+		    <!-- register COM class -->
+		    <com:Extension Category="windows.comServer">
+			    <com:ComServer>
+				    <com:ExeServer Executable="HelloWorldSample\HelloWorldSample.exe" DisplayName="Hello World Action COM Server">
+					    <com:Class Id="43F4D8CF-001D-4E91-BEB0-9D01B9575793" DisplayName="HelloWorldSample.ActionProvider" />
+				    </com:ExeServer>
+			    </com:ComServer>
+		    </com:Extension>
+
+		    <!-- register as a provider of actions -->
+		    <uap3:Extension Category="windows.appExtension">
+			    <uap3:AppExtension
+				    Name="com.microsoft.windows.ai.actions"
+				    Id="HelloWorldSample"
+				    DisplayName="HelloWorldSample"
+				    PublicFolder="actions">
+				    <uap3:Properties>
+					    <Registration>Actions.json</Registration>
+				    </uap3:Properties>
+			    </uap3:AppExtension>
+		    </uap3:Extension>
+	    </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

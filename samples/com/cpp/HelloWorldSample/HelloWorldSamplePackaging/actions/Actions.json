@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "actions": [
+    {
+      "id": "Contoso.HelloWorld",
+      "description": "Simple hello world sample",
+      "inputs": [
+        {
+          "name": "Name",
+          "kind": "Text"
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "Name" ],
+          "description": "Convert text to 'Hello World'"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "HelloOutput",
+          "kind": "Text"
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "43F4D8CF-001D-4E91-BEB0-9D01B9575793"
+      }
+    }
+  ]
+}
