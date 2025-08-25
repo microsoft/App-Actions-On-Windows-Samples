@@ -4,6 +4,7 @@
     {
       "id": "Contoso.HelloWorld",
       "description": "Simple hello world sample",
+      "allowedAppInvokers": ["*"],
       "inputs": [
         {
           "name": "Name",
