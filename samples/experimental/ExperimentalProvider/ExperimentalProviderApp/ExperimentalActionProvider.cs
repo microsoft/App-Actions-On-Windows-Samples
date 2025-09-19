@@ -1,14 +1,15 @@
 ﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Windows.AI.Actions;
+using Microsoft.Windows.ApplicationModel.Resources;
+using System;
 using System.Collections.Generic;
-using Windows.Foundation;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System;
+using Windows.AI.Actions;
+using Windows.Foundation;
+using Windows.Storage;
 using WinRT;
-using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace ExperimentalProviderApp
 {
@@ -24,7 +25,6 @@ namespace ExperimentalProviderApp
         {
             ResourceLoader resourceLoader = new();
             string result = await GetContextResult(context);
-
             ActionEntity responseEntity = context.EntityFactory.CreateTextEntity(result);
             context.SetOutputEntity("MessageCount", responseEntity);
         }
@@ -36,7 +36,7 @@ namespace ExperimentalProviderApp
             NamedActionEntity[] inputs = context.GetInputEntities();
             foreach (NamedActionEntity namedEntity in inputs)
             {
-                if(context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
+                if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
                 {
                     if (namedEntity.Name.Equals("Table") && namedEntity.Entity.Kind == ActionEntityKind.Table)
                     {
@@ -61,6 +61,49 @@ namespace ExperimentalProviderApp
                         await EnsureAppIsInitialized();
 
                         return await ((App)App.Current).m_window.AddContactAsync(contactEntity);
+                    }
+                }
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.EntityArray", StringComparison.Ordinal))
+                {
+                    found = true;
+
+                    NamedActionEntity[] entities = context.GetInputEntities();
+
+                    TextActionEntity? prefixEntity = GetActionEntityFromNamedActionArray("Prefix", entities) as TextActionEntity;
+
+                    ArrayActionEntity? inputPhotoEntities = GetActionEntityFromNamedActionArray("Photos", entities) as ArrayActionEntity;
+
+                    ActionEntity[] photos = inputPhotoEntities.GetItems();
+
+                    List<ActionEntity> outputPhotos = new List<ActionEntity>();
+
+                    for (int i = 0; i < photos.Length; i++)
+                    {
+                        string photoPath = (photos[i] as PhotoActionEntity)!.FullPath;
+                        StorageFile photoFile = await StorageFile.GetFileFromPathAsync(photoPath);
+                        StorageFolder parentFolder = await photoFile.GetParentAsync();
+                        string newFileName = $"{prefixEntity.Text}_{i}";
+                        await photoFile.RenameAsync(newFileName);
+                        ActionEntity newPhotoEntity = context.EntityFactory.CreatePhotoEntity(photoFile.Path);
+                        outputPhotos.Add(newPhotoEntity);
+                    }
+
+                    ArrayActionEntity arrayEntity = context.EntityFactory.CreateArrayEntity(ActionEntityKind.Photo, outputPhotos.ToArray());
+                    await EnsureAppIsInitialized();
+
+                    return await ((App)App.Current).m_window.AddArrayActionAsync(arrayEntity);
+                }
+                else if (context.ActionId.Equals("ExperiementalProviderApp.Experimental.EntityArray", StringComparison.Ordinal))
+                {
+                    if (namedEntity.Name.Equals("Uri") && namedEntity.Entity.Kind == ActionEntityKind.Uri)
+                    {
+                        found = true;
+
+                        UriActionEntity contactEntity = CastToType<ActionEntity, UriActionEntity>(namedEntity.Entity);
+
+                        await EnsureAppIsInitialized();
+
+                        return await ((App)App.Current).m_window.AddUriAsync(contactEntity);
                     }
                 }
             }

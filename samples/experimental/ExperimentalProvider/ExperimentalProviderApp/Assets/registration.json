@@ -58,6 +58,45 @@
         "type": "COM",
         "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
       }
+    },
+    {
+      "id": "ExperimentalProviderApp.Experimental.EntityArray",
+      "description": "ms-resource://Resources/ContactDescription",
+      "icon": "ms-resource://Files/Assets/StoreLogo.png",
+      "usesGenerativeAI": false,
+      "inputs": [
+        {
+          "name": "Prefix",
+          "kind": "Text"
+        },
+        {
+          "name": "Photos",
+          "kind": "Photo",
+          "isArray":  true
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "Prefix", "Photos" ],
+          "description": "ms-resource://Resources/ContactInput",
+          "where": [
+            "${Photos.Length} >1",
+            "${Photos.Extension.Equals(\".jpg\")} == true"
+          ]
+        }
+      ],
+      "allowedAppInvokers": ["Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App"],
+      "outputs": [
+        {
+          "name": "Result Photos",
+          "kind": "Photo",
+          "isArray":  true
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "15271F46-7E72-4703-B511-6C22CDD17A43"
+      }
     }
     
   ]
