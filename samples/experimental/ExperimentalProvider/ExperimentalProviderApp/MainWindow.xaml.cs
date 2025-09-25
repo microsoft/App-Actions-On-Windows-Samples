@@ -81,19 +81,19 @@ namespace ExperimentalProviderApp
             TaskCompletionSource<string> tcs = new();
             DispatcherQueue.TryEnqueue(() =>
             {
-                ActionEntity[] photos = arrayAction.GetItems();
+                ActionEntity[] texts = arrayAction.GetAll();
                 string messageContent = "";
 
-                foreach (ActionEntity entity in photos)
+                foreach (ActionEntity entity in texts)
                 {
-                    PhotoActionEntity photo = entity.As<PhotoActionEntity>();
-                    if(photo.FullPath != null)
+                    TextActionEntity text = entity.As<TextActionEntity>();
+                    if(text.Text != null)
                     {
-                        messageContent += photo.FullPath;
+                        messageContent += text.Text;
                     }
                 }
                 Messages.Add(messageContent);
-                tcs.SetResult(string.Format(resourceLoader.GetString("ContactMessageResult"), Messages.Count.ToString()));
+                tcs.SetResult(string.Format(resourceLoader.GetString("ArrayMessageResult"), Messages.Count.ToString()));
             });
 
             return await tcs.Task;
@@ -112,7 +112,7 @@ namespace ExperimentalProviderApp
                     messageContent += uri.AbsoluteUri;
                 }
                 Messages.Add(messageContent);
-                tcs.SetResult(string.Format(resourceLoader.GetString("ContactMessageResult"), Messages.Count.ToString()));
+                tcs.SetResult(string.Format(resourceLoader.GetString("UriMessageResult"), Messages.Count.ToString()));
             });
 
             return await tcs.Task;

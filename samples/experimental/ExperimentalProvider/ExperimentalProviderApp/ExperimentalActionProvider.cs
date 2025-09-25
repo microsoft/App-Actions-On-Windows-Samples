@@ -36,6 +36,7 @@ namespace ExperimentalProviderApp
             NamedActionEntity[] inputs = context.GetInputEntities();
             foreach (NamedActionEntity namedEntity in inputs)
             {
+                found = true;
                 if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
                 {
                     if (namedEntity.Name.Equals("Table") && namedEntity.Entity.Kind == ActionEntityKind.Table)
@@ -66,44 +67,39 @@ namespace ExperimentalProviderApp
                 else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.EntityArray", StringComparison.Ordinal))
                 {
                     found = true;
-
                     NamedActionEntity[] entities = context.GetInputEntities();
 
                     TextActionEntity? prefixEntity = GetActionEntityFromNamedActionArray("Prefix", entities) as TextActionEntity;
 
-                    ArrayActionEntity? inputPhotoEntities = GetActionEntityFromNamedActionArray("Photos", entities) as ArrayActionEntity;
+                    ArrayActionEntity? inputTextEntities = GetActionEntityFromNamedActionArray("Texts", entities) as ArrayActionEntity;
 
-                    ActionEntity[] photos = inputPhotoEntities.GetItems();
+                    ActionEntity[] texts = inputTextEntities.GetAll();
 
-                    List<ActionEntity> outputPhotos = new List<ActionEntity>();
+                    List<ActionEntity> updatedText = new List<ActionEntity>();
 
-                    for (int i = 0; i < photos.Length; i++)
+                    for (int i = 0; i < texts.Length; i++)
                     {
-                        string photoPath = (photos[i] as PhotoActionEntity)!.FullPath;
-                        StorageFile photoFile = await StorageFile.GetFileFromPathAsync(photoPath);
-                        StorageFolder parentFolder = await photoFile.GetParentAsync();
-                        string newFileName = $"{prefixEntity.Text}_{i}";
-                        await photoFile.RenameAsync(newFileName);
-                        ActionEntity newPhotoEntity = context.EntityFactory.CreatePhotoEntity(photoFile.Path);
-                        outputPhotos.Add(newPhotoEntity);
+                        string updatedTextContent = prefixEntity.Text + (texts[i] as TextActionEntity)!.Text + i;
+                        ActionEntity updatedTextEntity = context.EntityFactory.CreateTextEntity(updatedTextContent);
+                        updatedText.Add(updatedTextEntity);
                     }
 
-                    ArrayActionEntity arrayEntity = context.EntityFactory.CreateArrayEntity(ActionEntityKind.Photo, outputPhotos.ToArray());
+                    ArrayActionEntity arrayEntity = context.EntityFactory.CreateArrayEntity(ActionEntityKind.Text, updatedText.ToArray());
                     await EnsureAppIsInitialized();
 
-                    return await ((App)App.Current).m_window.AddArrayActionAsync(arrayEntity);
+                    return await ((App)App.Current).m_window.AddEntityArrayAsync(arrayEntity);
                 }
-                else if (context.ActionId.Equals("ExperiementalProviderApp.Experimental.EntityArray", StringComparison.Ordinal))
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Uri", StringComparison.Ordinal))
                 {
+                    found = true;
                     if (namedEntity.Name.Equals("Uri") && namedEntity.Entity.Kind == ActionEntityKind.Uri)
                     {
-                        found = true;
 
-                        UriActionEntity contactEntity = CastToType<ActionEntity, UriActionEntity>(namedEntity.Entity);
+                        UriActionEntity uriEntity = CastToType<ActionEntity, UriActionEntity>(namedEntity.Entity);
 
                         await EnsureAppIsInitialized();
 
-                        return await ((App)App.Current).m_window.AddUriAsync(contactEntity);
+                        return await ((App)App.Current).m_window.AddUriAsync(uriEntity);
                     }
                 }
             }
@@ -139,6 +135,21 @@ namespace ExperimentalProviderApp
             {
                 MarshalInspectable<object>.DisposeAbi(abiPtr);
             }
+        }
+
+        private static ActionEntity? GetActionEntityFromNamedActionArray(string name, NamedActionEntity[] array)
+        {
+            ActionEntity? entity = null;
+            foreach (NamedActionEntity namedActionEntity in array)
+            {
+                if (namedActionEntity.Name.Equals(name, StringComparison.Ordinal))
+                {
+                    entity = namedActionEntity.Entity;
+                    break;
+                }
+            }
+
+            return entity;
         }
     }
 }

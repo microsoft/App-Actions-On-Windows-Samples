@@ -157,4 +157,28 @@
     <value>Experimental Table Action</value>
     <comment>Description for Table Action</comment>
   </data>
+  <data name="UriMessageResult" xml:space="preserve">
+    <value>You have {0} uri's.</value>
+    <comment>Output returned to caller. " uri." in "You have &lt;number&gt; uri's."</comment>
+  </data>
+  <data name="ArrayMessageResult" xml:space="preserve">
+    <value>Array of {0} length.</value>
+    <comment>Output returned to caller. " entityArray." in "Array of &lt;number&gt; length."</comment>
+  </data>
+  <data name="UriInput" xml:space="preserve">
+    <value>Launch Uri</value>
+    <comment>Description for UriEntity action input.</comment>
+  </data>
+  <data name="UriDescription" xml:space="preserve">
+    <value>Navigate to Uri</value>
+    <comment>Description for UriEntity action.</comment>
+  </data>
+  <data name="ArrayDescription" xml:space="preserve">
+    <value>Update text with prefix</value>
+    <comment>Description for EntityArray action.</comment>
+  </data>
+  <data name="ArrayInput" xml:space="preserve">
+    <value>Prefix text and array of texts</value>
+    <comment>Description for EntityArray action input combination.</comment>
+  </data>
 </root>
