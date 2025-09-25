@@ -91,9 +91,9 @@ namespace ExperimentalProviderApp
                 }
                 else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Uri", StringComparison.Ordinal))
                 {
-                    found = true;
                     if (namedEntity.Name.Equals("Uri") && namedEntity.Entity.Kind == ActionEntityKind.Uri)
                     {
+                        found = true;
 
                         UriActionEntity uriEntity = CastToType<ActionEntity, UriActionEntity>(namedEntity.Entity);
 
