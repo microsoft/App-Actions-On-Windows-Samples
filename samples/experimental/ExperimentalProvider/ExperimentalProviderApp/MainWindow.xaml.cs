@@ -89,11 +89,11 @@ namespace ExperimentalProviderApp
                     TextActionEntity text = entity.As<TextActionEntity>();
                     if(text.Text != null)
                     {
-                        messageContent += text.Text;
+                        messageContent += text.Text + " ";
                     }
                 }
                 Messages.Add(messageContent);
-                tcs.SetResult(string.Format(resourceLoader.GetString("ArrayMessageResult"), Messages.Count.ToString()));
+                tcs.SetResult(string.Format(resourceLoader.GetString("ArrayMessageResult"), arrayAction.GetAll().Length.ToString()));
             });
 
             return await tcs.Task;

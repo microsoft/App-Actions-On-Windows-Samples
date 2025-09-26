@@ -36,7 +36,6 @@ namespace ExperimentalProviderApp
             NamedActionEntity[] inputs = context.GetInputEntities();
             foreach (NamedActionEntity namedEntity in inputs)
             {
-                found = true;
                 if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
                 {
                     if (namedEntity.Name.Equals("Table") && namedEntity.Entity.Kind == ActionEntityKind.Table)
@@ -68,7 +67,7 @@ namespace ExperimentalProviderApp
                 {
                     found = true;
                     NamedActionEntity[] entities = context.GetInputEntities();
-
+                    
                     TextActionEntity? prefixEntity = GetActionEntityFromNamedActionArray("Prefix", entities) as TextActionEntity;
 
                     ArrayActionEntity? inputTextEntities = GetActionEntityFromNamedActionArray("Texts", entities) as ArrayActionEntity;
@@ -79,7 +78,7 @@ namespace ExperimentalProviderApp
 
                     for (int i = 0; i < texts.Length; i++)
                     {
-                        string updatedTextContent = prefixEntity.Text + (texts[i] as TextActionEntity)!.Text + i;
+                        string updatedTextContent = prefixEntity.Text + i;
                         ActionEntity updatedTextEntity = context.EntityFactory.CreateTextEntity(updatedTextContent);
                         updatedText.Add(updatedTextEntity);
                     }
