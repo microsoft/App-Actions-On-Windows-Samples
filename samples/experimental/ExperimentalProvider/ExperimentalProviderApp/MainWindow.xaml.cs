@@ -34,6 +34,7 @@ namespace ExperimentalProviderApp
         {
             InitializeComponent();
         }
+
         public async Task<string> AddTableAsync(TableActionEntity table)
         {
             TaskCompletionSource<string> tcs = new();

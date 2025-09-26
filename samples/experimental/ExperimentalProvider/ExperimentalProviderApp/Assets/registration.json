@@ -18,7 +18,7 @@
           "description": "ms-resource://Resources/TableInput"
         }
       ],
-      "allowedAppInvokers": [ "Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App" ],
+      "allowedAppInvokers": [ "*" ],
       "outputs": [
         {
           "name": "MessageCount",
@@ -47,7 +47,7 @@
           "description": "ms-resource://Resources/ContactInput"
         }
       ],
-      "allowedAppInvokers": [ "Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App" ],
+      "allowedAppInvokers": [ "*" ],
       "outputs": [
         {
           "name": "MessageCount",
@@ -66,17 +66,17 @@
       "usesGenerativeAI": false,
       "inputs": [
         {
-          "name": "Uri",
+          "name": "Link",
           "kind": "Uri"
         }
       ],
       "inputCombinations": [
         {
-          "inputs": [ "Uri" ],
+          "inputs": [ "Link" ],
           "description": "ms-resource://Resources/UriInput"
         }
       ],
-      "allowedAppInvokers": [ "Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App" ],
+      "allowedAppInvokers": [ "*" ],
       "outputs": [
         {
           "name": "MessageCount",
@@ -109,7 +109,7 @@
           "description": "ms-resource://Resources/ArrayInput"
         }
       ],
-      "allowedAppInvokers": [ "Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App" ],
+      "allowedAppInvokers": [ "*" ],
       "outputs": [
         {
           "name": "MessageCount",

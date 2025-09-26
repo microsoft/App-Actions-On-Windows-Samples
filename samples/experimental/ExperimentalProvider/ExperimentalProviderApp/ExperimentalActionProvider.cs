@@ -67,7 +67,7 @@ namespace ExperimentalProviderApp
                 {
                     found = true;
                     NamedActionEntity[] entities = context.GetInputEntities();
-                    
+
                     TextActionEntity? prefixEntity = GetActionEntityFromNamedActionArray("Prefix", entities) as TextActionEntity;
 
                     ArrayActionEntity? inputTextEntities = GetActionEntityFromNamedActionArray("Texts", entities) as ArrayActionEntity;
@@ -90,7 +90,7 @@ namespace ExperimentalProviderApp
                 }
                 else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Uri", StringComparison.Ordinal))
                 {
-                    if (namedEntity.Name.Equals("Uri") && namedEntity.Entity.Kind == ActionEntityKind.Uri)
+                    if (namedEntity.Name.Equals("Link") && namedEntity.Entity.Kind == ActionEntityKind.Uri)
                     {
                         found = true;
 
