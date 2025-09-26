@@ -1,13 +1,6 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -15,11 +8,20 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.AI.Actions;
 using Windows.ApplicationModel.Contacts;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.ApplicationModel.Resources;
+using Windows.Storage;
+using WinRT;
 
 namespace ExperimentalProviderApp
 {
@@ -70,6 +72,48 @@ namespace ExperimentalProviderApp
                 }
                 Messages.Add(messageContent);
                 tcs.SetResult(string.Format(resourceLoader.GetString("ContactMessageResult"), Messages.Count.ToString()));
+            });
+
+            return await tcs.Task;
+        }
+
+        public async Task<string> AddEntityArrayAsync(ArrayActionEntity arrayAction)
+        {
+            TaskCompletionSource<string> tcs = new();
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                ActionEntity[] texts = arrayAction.GetAll();
+                string messageContent = "";
+
+                foreach (ActionEntity entity in texts)
+                {
+                    TextActionEntity text = entity.As<TextActionEntity>();
+                    if(text.Text != null)
+                    {
+                        messageContent += text.Text + " ";
+                    }
+                }
+                Messages.Add(messageContent);
+                tcs.SetResult(string.Format(resourceLoader.GetString("ArrayMessageResult"), arrayAction.GetAll().Length.ToString()));
+            });
+
+            return await tcs.Task;
+        }
+
+        public async Task<string> AddUriAsync(UriActionEntity uriAction)
+        {
+            TaskCompletionSource<string> tcs = new();
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                Uri uri = uriAction.Uri;
+                string messageContent = "";
+
+                if (uri.AbsoluteUri != null)
+                {
+                    messageContent += uri.AbsoluteUri;
+                }
+                Messages.Add(messageContent);
+                tcs.SetResult(string.Format(resourceLoader.GetString("UriMessageResult"), Messages.Count.ToString()));
             });
 
             return await tcs.Task;

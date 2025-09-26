@@ -1,14 +1,15 @@
 ﻿// Copyright (C) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Windows.AI.Actions;
+using Microsoft.Windows.ApplicationModel.Resources;
+using System;
 using System.Collections.Generic;
-using Windows.Foundation;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System;
+using Windows.AI.Actions;
+using Windows.Foundation;
+using Windows.Storage;
 using WinRT;
-using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace ExperimentalProviderApp
 {
@@ -24,7 +25,6 @@ namespace ExperimentalProviderApp
         {
             ResourceLoader resourceLoader = new();
             string result = await GetContextResult(context);
-
             ActionEntity responseEntity = context.EntityFactory.CreateTextEntity(result);
             context.SetOutputEntity("MessageCount", responseEntity);
         }
@@ -36,7 +36,7 @@ namespace ExperimentalProviderApp
             NamedActionEntity[] inputs = context.GetInputEntities();
             foreach (NamedActionEntity namedEntity in inputs)
             {
-                if(context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
+                if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Table", StringComparison.Ordinal))
                 {
                     if (namedEntity.Name.Equals("Table") && namedEntity.Entity.Kind == ActionEntityKind.Table)
                     {
@@ -61,6 +61,44 @@ namespace ExperimentalProviderApp
                         await EnsureAppIsInitialized();
 
                         return await ((App)App.Current).m_window.AddContactAsync(contactEntity);
+                    }
+                }
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.EntityArray", StringComparison.Ordinal))
+                {
+                    found = true;
+                    NamedActionEntity[] entities = context.GetInputEntities();
+
+                    TextActionEntity? prefixEntity = GetActionEntityFromNamedActionArray("Prefix", entities) as TextActionEntity;
+
+                    ArrayActionEntity? inputTextEntities = GetActionEntityFromNamedActionArray("Texts", entities) as ArrayActionEntity;
+
+                    ActionEntity[] texts = inputTextEntities.GetAll();
+
+                    List<ActionEntity> updatedText = new List<ActionEntity>();
+
+                    for (int i = 0; i < texts.Length; i++)
+                    {
+                        string updatedTextContent = prefixEntity.Text + i;
+                        ActionEntity updatedTextEntity = context.EntityFactory.CreateTextEntity(updatedTextContent);
+                        updatedText.Add(updatedTextEntity);
+                    }
+
+                    ArrayActionEntity arrayEntity = context.EntityFactory.CreateArrayEntity(ActionEntityKind.Text, updatedText.ToArray());
+                    await EnsureAppIsInitialized();
+
+                    return await ((App)App.Current).m_window.AddEntityArrayAsync(arrayEntity);
+                }
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.Uri", StringComparison.Ordinal))
+                {
+                    if (namedEntity.Name.Equals("Link") && namedEntity.Entity.Kind == ActionEntityKind.Uri)
+                    {
+                        found = true;
+
+                        UriActionEntity uriEntity = CastToType<ActionEntity, UriActionEntity>(namedEntity.Entity);
+
+                        await EnsureAppIsInitialized();
+
+                        return await ((App)App.Current).m_window.AddUriAsync(uriEntity);
                     }
                 }
             }
@@ -96,6 +134,21 @@ namespace ExperimentalProviderApp
             {
                 MarshalInspectable<object>.DisposeAbi(abiPtr);
             }
+        }
+
+        private static ActionEntity? GetActionEntityFromNamedActionArray(string name, NamedActionEntity[] array)
+        {
+            ActionEntity? entity = null;
+            foreach (NamedActionEntity namedActionEntity in array)
+            {
+                if (namedActionEntity.Name.Equals(name, StringComparison.Ordinal))
+                {
+                    entity = namedActionEntity.Entity;
+                    break;
+                }
+            }
+
+            return entity;
         }
     }
 }

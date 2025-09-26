@@ -1,5 +1,5 @@
 ﻿{
-  "version": 2,
+  "version": 3,
   "actions": [
     {
       "id": "ExperimentalProviderApp.Experimental.Table",
@@ -18,7 +18,7 @@
           "description": "ms-resource://Resources/TableInput"
         }
       ],
-      "allowedAppInvokers": ["Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App"],
+      "allowedAppInvokers": [ "*" ],
       "outputs": [
         {
           "name": "MessageCount",
@@ -47,7 +47,69 @@
           "description": "ms-resource://Resources/ContactInput"
         }
       ],
-      "allowedAppInvokers": ["Microsoft.AppActionsTestingPlayground_8wekyb3d8bbwe!App"],
+      "allowedAppInvokers": [ "*" ],
+      "outputs": [
+        {
+          "name": "MessageCount",
+          "kind": "Text"
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
+      }
+    },
+    {
+      "id": "ExperimentalProviderApp.Experimental.Uri",
+      "description": "ms-resource://Resources/UriDescription",
+      "icon": "ms-resource://Files/Assets/StoreLogo.png",
+      "usesGenerativeAI": false,
+      "inputs": [
+        {
+          "name": "Link",
+          "kind": "Uri"
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "Link" ],
+          "description": "ms-resource://Resources/UriInput"
+        }
+      ],
+      "allowedAppInvokers": [ "*" ],
+      "outputs": [
+        {
+          "name": "MessageCount",
+          "kind": "Text"
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
+      }
+    },
+    {
+      "id": "ExperimentalProviderApp.Experimental.EntityArray",
+      "description": "ms-resource://Resources/ArrayDescription",
+      "icon": "ms-resource://Files/Assets/StoreLogo.png",
+      "usesGenerativeAI": false,
+      "inputs": [
+        {
+          "name": "Prefix",
+          "kind": "Text"
+        },
+        {
+          "name": "Texts",
+          "kind": "Text[]"
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "Prefix", "Texts" ],
+          "description": "ms-resource://Resources/ArrayInput"
+        }
+      ],
+      "allowedAppInvokers": [ "*" ],
       "outputs": [
         {
           "name": "MessageCount",
@@ -59,6 +121,5 @@
         "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
       }
     }
-    
   ]
 }
