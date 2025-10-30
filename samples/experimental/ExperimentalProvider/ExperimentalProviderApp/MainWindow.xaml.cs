@@ -118,5 +118,41 @@ namespace ExperimentalProviderApp
 
             return await tcs.Task;
         }
+
+        public async Task<string> AddCustomTextAsync(CustomTextActionEntity customTextAction)
+        {
+            TaskCompletionSource<string> tcs = new();
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                string messageContent = "";
+
+                if(customTextAction.KeyPhrase != null)
+                {
+                    messageContent += customTextAction.KeyPhrase;
+                }
+                Messages.Add(messageContent);
+                tcs.SetResult(string.Format(resourceLoader.GetString("CustomTextMessageResult"), Messages.Count.ToString()));
+            });
+
+            return await tcs.Task;
+        }
+
+        public async Task<string> AddStreamingTextAsync(StreamingTextActionEntity streamingTextAction)
+        {
+            TaskCompletionSource<string> tcs = new();
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                string messageContent = "";
+
+                if(streamingTextAction.GetText() != null)
+                {
+                    messageContent += streamingTextAction.GetText();
+                }
+                Messages.Add(messageContent);
+                tcs.SetResult(string.Format(resourceLoader.GetString("CustomTextMessageResult"), Messages.Count.ToString()));
+            });
+
+            return await tcs.Task;
+        }
     }
 }

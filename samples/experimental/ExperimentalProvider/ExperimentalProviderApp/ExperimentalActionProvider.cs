@@ -5,10 +5,12 @@ using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Windows.AI.Actions;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.System;
 using WinRT;
 
 namespace ExperimentalProviderApp
@@ -101,6 +103,57 @@ namespace ExperimentalProviderApp
                         return await ((App)App.Current).m_window.AddUriAsync(uriEntity);
                     }
                 }
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.CustomText", StringComparison.Ordinal))
+                {
+                    if (namedEntity.Name.Equals("CustomText") && namedEntity.Entity.Kind == ActionEntityKind.CustomText)
+                    {
+                        found = true;
+                        CustomTextActionEntity customEntity = CastToType<ActionEntity, CustomTextActionEntity>(namedEntity.Entity);
+
+                        string movie = customEntity.KeyPhrase;
+                        IReadOnlyDictionary<string, object> movieProperties = customEntity.Properties;
+
+                        Launcher.LaunchUriAsync(
+                            new Uri($"ms-windows-store://search/?query={movie}")).Get();
+
+                        return await ((App)App.Current).m_window.AddCustomTextAsync(customEntity);
+                    }
+                }
+
+                else if(context.ActionId.Equals("ExperimentalProviderApp.Experimental.StreamingText", StringComparison.Ordinal))
+                {
+                    found = true;
+                    StreamingTextActionEntityWriter writer =
+                        context.EntityFactory.CreateStreamingTextActionEntityWriter(ActionEntityTextFormat.Plain);
+                    context.SetOutputEntity("Summary", writer.ReaderEntity);
+
+                    writer.SetText("Summarizing your document.");
+                    int totalChunks = 500;
+                    for (int chunk = 0; chunk < totalChunks; chunk++)
+                    {
+                        UpdateHelpDetails(
+                            context,
+                            "Streaming",
+                            "Credits Available",
+                            "Continuing to summarize");
+                    }
+
+                    NamedActionEntity[] outputEntities = context.GetOutputEntities();
+
+                    StreamingTextActionEntity? textStreamingEntity = null;
+                    foreach (NamedActionEntity outputEntity in outputEntities)
+                    {
+                        if (outputEntity.Name.Equals("Summary", StringComparison.Ordinal))
+                        {
+                            textStreamingEntity = outputEntity.Entity as StreamingTextActionEntity;
+                            break;
+                        }
+                    }
+                    if (textStreamingEntity is not null)
+                    {
+                        return await ((App)App.Current).m_window.AddStreamingTextAsync(textStreamingEntity);
+                    }
+                }
             }
 
             if (!found)
@@ -149,6 +202,22 @@ namespace ExperimentalProviderApp
             }
 
             return entity;
+        }
+
+        // A helper that updates the HelpDetails and raises the event 
+
+        private static  void UpdateHelpDetails(
+            ActionInvocationContext context,
+            string title,
+            string description,
+            string helpDescription)
+        {
+            // Update HelpDetails of the context, e.g., context.HelpDetails.Title = title. elided... 
+            // context.HelpDetails internally raises the event upon each property update. 
+            context.HelpDetails.Title = title;
+            context.HelpDetails.Description = description;
+            context.HelpDetails.HelpUriDescription = helpDescription;
+            // The Changed event is raised after each property is updated 
         }
     }
 }

@@ -181,4 +181,28 @@
     <value>Prefix text and array of texts</value>
     <comment>Description for EntityArray action input combination.</comment>
   </data>
+  <data name="CustomTextMessageResult" xml:space="preserve">
+    <value>You have {0} CustomText entities.</value>
+    <comment>Output returned to caller. " CustomText entities." in "You have &lt;number&gt; CustomText entities."</comment>
+  </data>
+  <data name="CustomTextInput" xml:space="preserve">
+    <value>Invoke CustomTextEntity</value>
+    <comment>Description for CustomTextEntity action input.</comment>
+  </data>
+  <data name="CustomTextDescription" xml:space="preserve">
+    <value>Find movie.</value>
+    <comment>Description for CustomTextEntity action.</comment>
+  </data>
+  <data name="StreamingTextMessageResult" xml:space="preserve">
+    <value>You have {0} streamed texts.</value>
+    <comment>Output returned to caller. " streamed texts." in "You have &lt;number&gt; streamed texts."</comment>
+  </data>
+  <data name="StreamingTextInput" xml:space="preserve">
+    <value>Stream text.</value>
+    <comment>Description for StreamingTextEntity action input.</comment>
+  </data>
+  <data name="StreamingTextDescription" xml:space="preserve">
+    <value>Stream text</value>
+    <comment>Description for StreamingTextEntity action.</comment>
+  </data>
 </root>
