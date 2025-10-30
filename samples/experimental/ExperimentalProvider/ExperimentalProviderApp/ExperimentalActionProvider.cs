@@ -32,8 +32,14 @@ namespace ExperimentalProviderApp
         "by everyone in {city} and {first_name}'s journey still continues to this day.",
         };
 
+        private static bool hasChanged = false;
+
         public IAsyncAction InvokeAsync(ActionInvocationContext context)
         {
+            context.HelpDetails.Changed += (sender, args) =>
+            {
+                hasChanged = true;
+            };
             return InvokeAsyncHelper(context).AsAsyncAction();
         }
 
@@ -143,7 +149,7 @@ namespace ExperimentalProviderApp
 
                     await InvokeStreamingActionAsyncHelper(context).AsAsyncAction();
 
-                    return await ((App)App.Current).m_window.AddStreamingTextAsync();
+                    return await ((App)App.Current).m_window.AddStreamingTextAsync(hasChanged);
                 }
             }
 
@@ -209,6 +215,7 @@ namespace ExperimentalProviderApp
             context.HelpDetails.Description = description;
             context.HelpDetails.HelpUriDescription = helpDescription;
             // The Changed event is raised after each property is updated 
+            ((App)App.Current).m_window.AddStreamingTextAsync(hasChanged);
         }
 
         private static async Task InvokeStreamingActionAsyncHelper(ActionInvocationContext context)

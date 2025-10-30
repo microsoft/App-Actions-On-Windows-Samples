@@ -193,8 +193,12 @@
     <value>Find movie.</value>
     <comment>Description for CustomTextEntity action.</comment>
   </data>
-  <data name="StreamingTextMessageResult" xml:space="preserve">
-    <value>Streaming text.</value>
+  <data name="StreamingTextMessageResultChanged" xml:space="preserve">
+    <value>Changed.</value>
+    <comment>Output returned to caller. " streamed texts." in "You have &lt;number&gt; streamed texts."</comment>
+  </data>
+  <data name="StreamingTextMessageResultUnchanged" xml:space="preserve">
+    <value>Unchanged.</value>
     <comment>Output returned to caller. " streamed texts." in "You have &lt;number&gt; streamed texts."</comment>
   </data>
   <data name="StreamingTextInput" xml:space="preserve">
