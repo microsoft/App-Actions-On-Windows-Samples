@@ -137,19 +137,13 @@ namespace ExperimentalProviderApp
             return await tcs.Task;
         }
 
-        public async Task<string> AddStreamingTextAsync(StreamingTextActionEntity streamingTextAction)
+        public async Task<string> AddStreamingTextAsync()
         {
             TaskCompletionSource<string> tcs = new();
             DispatcherQueue.TryEnqueue(() =>
             {
-                string messageContent = "";
-
-                if(streamingTextAction.GetText() != null)
-                {
-                    messageContent += streamingTextAction.GetText();
-                }
-                Messages.Add(messageContent);
-                tcs.SetResult(string.Format(resourceLoader.GetString("CustomTextMessageResult"), Messages.Count.ToString()));
+                Messages.Add(resourceLoader.GetString("StreamingTextMessageResult"));
+                tcs.SetResult(resourceLoader.GetString("StreamingTextMessageResult"));
             });
 
             return await tcs.Task;

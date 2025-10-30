@@ -17,6 +17,21 @@ namespace ExperimentalProviderApp
     [Guid("403EA403-A3DC-44B0-B1C2-60581E6E265E")]
     public partial class ExperimentalActionProvider : Windows.AI.Actions.Provider.IActionProvider
     {
+        private static readonly string[] wordsForStreamingStory = new string[]
+        {
+        "This ",
+        "is ",
+        "a ",
+        "story ",
+        "about a superhero ",
+        "named {first_name} ",
+        "that defended the city of {city} ",
+        "with courage and honor. ",
+        "{first_name} was known for their ability to fly " +
+        "and see through solid objects. {first_name} was beloved " +
+        "by everyone in {city} and {first_name}'s journey still continues to this day.",
+        };
+
         public IAsyncAction InvokeAsync(ActionInvocationContext context)
         {
             return InvokeAsyncHelper(context).AsAsyncAction();
@@ -115,43 +130,20 @@ namespace ExperimentalProviderApp
                         Launcher.LaunchUriAsync(
                             new Uri($"ms-windows-store://search/?query={movie}")).Get();
 
+                        await EnsureAppIsInitialized();
+
                         return await ((App)App.Current).m_window.AddCustomTextAsync(customEntity);
                     }
                 }
                 else if(context.ActionId.Equals("ExperimentalProviderApp.Experimental.StreamingText", StringComparison.Ordinal))
                 {
                     found = true;
-                    StreamingTextActionEntityWriter writer =
-                        context.EntityFactory.CreateStreamingTextActionEntityWriter(ActionEntityTextFormat.Plain);
-                    context.SetOutputEntity("Summary", writer.ReaderEntity);
 
-                    int totalChunks = 500;
-                    for (int chunk = 0; chunk < totalChunks; chunk++)
-                    {
-                        UpdateHelpDetails(
-                            context,
-                            "Streaming",
-                            "Updating",
-                            "Continuing to summarize");
+                    await EnsureAppIsInitialized();
 
-                        writer.SetText("Summarizing your document.");
-                    }
+                    await InvokeStreamingActionAsyncHelper(context).AsAsyncAction();
 
-                    NamedActionEntity[] outputEntities = context.GetOutputEntities();
-
-                    StreamingTextActionEntity? textStreamingEntity = null;
-                    foreach (NamedActionEntity outputEntity in outputEntities)
-                    {
-                        if (outputEntity.Name.Equals("Summary", StringComparison.Ordinal))
-                        {
-                            textStreamingEntity = outputEntity.Entity as StreamingTextActionEntity;
-                            break;
-                        }
-                    }
-                    if (textStreamingEntity is not null)
-                    {
-                        return await ((App)App.Current).m_window.AddStreamingTextAsync(textStreamingEntity);
-                    }
+                    return await ((App)App.Current).m_window.AddStreamingTextAsync();
                 }
             }
 
@@ -217,6 +209,59 @@ namespace ExperimentalProviderApp
             context.HelpDetails.Description = description;
             context.HelpDetails.HelpUriDescription = helpDescription;
             // The Changed event is raised after each property is updated 
+        }
+
+        private static async Task InvokeStreamingActionAsyncHelper(ActionInvocationContext context)
+        {
+            string firstName = string.Empty;
+            string cityOfAction = string.Empty;
+            foreach (NamedActionEntity inputEntity in context.GetInputEntities())
+            {
+                if (inputEntity.Name.Equals("FirstName", StringComparison.Ordinal))
+                {
+                    TextActionEntity entity = CastToType<ActionEntity, TextActionEntity>(inputEntity.Entity);
+                    firstName = entity.Text;
+                }
+                if (inputEntity.Name.Equals("City", StringComparison.Ordinal))
+                {
+                    TextActionEntity entity = CastToType<ActionEntity, TextActionEntity>(inputEntity.Entity);
+                    cityOfAction = entity.Text;
+                }
+            }
+            var streamingTextWriter = context.EntityFactory.CreateStreamingTextActionEntityWriter(ActionEntityTextFormat.Plain);
+
+            // Feed fake LLM output to the host in LLM fashion.
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                string storyText = string.Empty;
+                foreach (string word in wordsForStreamingStory)
+                {
+                    string formattedWord = word;
+                    if (formattedWord.Contains("{first_name}", StringComparison.Ordinal))
+                    {
+                        formattedWord = formattedWord.Replace("{first_name}", firstName);
+                    }
+                    if (formattedWord.Contains("{city}", StringComparison.Ordinal))
+                    {
+                        formattedWord = formattedWord.Replace("{city}", cityOfAction);
+                    }
+
+                    UpdateHelpDetails(
+                        context,
+                        "Generating Story...",
+                        $"Current length: {storyText.Length + formattedWord.Length} characters",
+                        "This story is being generated using a simulated LLM output.");
+
+                    storyText += formattedWord;
+                    streamingTextWriter.SetText(storyText);
+                    await Task.Delay(500);
+                }
+                streamingTextWriter.Dispose();
+            });
+
+            context.Result = ActionInvocationResult.Success;
+            context.SetOutputEntity("Story", streamingTextWriter.ReaderEntity);
         }
     }
 }

@@ -125,13 +125,17 @@
       "usesGenerativeAI": false,
       "inputs": [
         {
-          "name": "StreamingText",
-          "kind": "StreamingText"
+          "name": "FirstName",
+          "kind": "Text"
+        },
+        {
+          "name": "City",
+          "kind": "Text"
         }
       ],
       "inputCombinations": [
         {
-          "inputs": [ "StreamingText" ],
+          "inputs": [ "FirstName", "City" ],
           "description": "ms-resource://Resources/StreamingTextInput"
         }
       ],
@@ -140,6 +144,10 @@
         {
           "name": "MessageCount",
           "kind": "Text"
+        },
+        {
+          "name": "Story",
+          "kind": "StreamingText"
         }
       ],
       "invocation": {
