@@ -5,7 +5,6 @@ using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Windows.AI.Actions;
 using Windows.Foundation;
@@ -119,7 +118,6 @@ namespace ExperimentalProviderApp
                         return await ((App)App.Current).m_window.AddCustomTextAsync(customEntity);
                     }
                 }
-
                 else if(context.ActionId.Equals("ExperimentalProviderApp.Experimental.StreamingText", StringComparison.Ordinal))
                 {
                     found = true;
@@ -127,15 +125,16 @@ namespace ExperimentalProviderApp
                         context.EntityFactory.CreateStreamingTextActionEntityWriter(ActionEntityTextFormat.Plain);
                     context.SetOutputEntity("Summary", writer.ReaderEntity);
 
-                    writer.SetText("Summarizing your document.");
                     int totalChunks = 500;
                     for (int chunk = 0; chunk < totalChunks; chunk++)
                     {
                         UpdateHelpDetails(
                             context,
                             "Streaming",
-                            "Credits Available",
+                            "Updating",
                             "Continuing to summarize");
+
+                        writer.SetText("Summarizing your document.");
                     }
 
                     NamedActionEntity[] outputEntities = context.GetOutputEntities();
