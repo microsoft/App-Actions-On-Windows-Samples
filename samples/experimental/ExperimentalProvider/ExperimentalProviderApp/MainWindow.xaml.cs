@@ -118,5 +118,17 @@ namespace ExperimentalProviderApp
 
             return await tcs.Task;
         }
+
+        public async Task<string> AddStreamingTextAsync(string updatedDescription)
+        {
+            TaskCompletionSource<string> tcs = new();
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                Messages.Add("Current HelpDetails iteration: " +updatedDescription);
+                tcs.SetResult(resourceLoader.GetString("StreamingTextMessageResult"));
+            });
+
+            return await tcs.Task;
+        }
     }
 }

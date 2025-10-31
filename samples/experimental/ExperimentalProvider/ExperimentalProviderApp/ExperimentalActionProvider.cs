@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.AI.Actions;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.System;
 using WinRT;
 
 namespace ExperimentalProviderApp
@@ -16,8 +17,26 @@ namespace ExperimentalProviderApp
     [Guid("403EA403-A3DC-44B0-B1C2-60581E6E265E")]
     public partial class ExperimentalActionProvider : Windows.AI.Actions.Provider.IActionProvider
     {
+        private static readonly string[] wordsForStreamingStory = new string[]
+        {
+        "This ",
+        "is ",
+        "a ",
+        "story ",
+        "about a superhero ",
+        "named {first_name} ",
+        "that defended the city of {city} ",
+        "with courage. ",
+        };
+
+        private static bool hasChanged = false;
+
         public IAsyncAction InvokeAsync(ActionInvocationContext context)
         {
+            context.HelpDetails.Changed += (sender, args) =>
+            {
+                hasChanged = true;
+            };
             return InvokeAsyncHelper(context).AsAsyncAction();
         }
 
@@ -101,6 +120,16 @@ namespace ExperimentalProviderApp
                         return await ((App)App.Current).m_window.AddUriAsync(uriEntity);
                     }
                 }
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.StreamingText", StringComparison.Ordinal))
+                {
+                    found = true;
+
+                    await EnsureAppIsInitialized();
+
+                    await InvokeStreamingActionAsyncHelper(context).AsAsyncAction();
+
+                    return await ((App)App.Current).m_window.AddStreamingTextAsync(context.HelpDetails.Description);
+                }
             }
 
             if (!found)
@@ -149,6 +178,74 @@ namespace ExperimentalProviderApp
             }
 
             return entity;
+        }
+
+        // A helper that updates the HelpDetails and raises the event 
+        private static void UpdateHelpDetails(
+            ActionInvocationContext context,
+            string title,
+            string description,
+            string helpDescription)
+        {
+            // Update HelpDetails of the context, e.g., context.HelpDetails.Title = title. elided... 
+            // context.HelpDetails internally raises the event upon each property update. 
+            context.HelpDetails.Title = title;
+            context.HelpDetails.Description = description;
+            context.HelpDetails.HelpUriDescription = helpDescription;
+            // The Changed event is raised after each property is updated 
+            ((App)App.Current).m_window.AddStreamingTextAsync(context.HelpDetails.Description);
+        }
+
+        private static async Task InvokeStreamingActionAsyncHelper(ActionInvocationContext context)
+        {
+            string firstName = string.Empty;
+            string cityOfAction = string.Empty;
+            foreach (NamedActionEntity inputEntity in context.GetInputEntities())
+            {
+                if (inputEntity.Name.Equals("FirstName", StringComparison.Ordinal))
+                {
+                    TextActionEntity entity = CastToType<ActionEntity, TextActionEntity>(inputEntity.Entity);
+                    firstName = entity.Text;
+                }
+                if (inputEntity.Name.Equals("City", StringComparison.Ordinal))
+                {
+                    TextActionEntity entity = CastToType<ActionEntity, TextActionEntity>(inputEntity.Entity);
+                    cityOfAction = entity.Text;
+                }
+            }
+            var streamingTextWriter = context.EntityFactory.CreateStreamingTextActionEntityWriter(ActionEntityTextFormat.Plain);
+
+            // Feed fake LLM output to the host in LLM fashion.
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                string storyText = string.Empty;
+                foreach (string word in wordsForStreamingStory)
+                {
+                    string formattedWord = word;
+                    if (formattedWord.Contains("{first_name}", StringComparison.Ordinal))
+                    {
+                        formattedWord = formattedWord.Replace("{first_name}", firstName);
+                    }
+                    if (formattedWord.Contains("{city}", StringComparison.Ordinal))
+                    {
+                        formattedWord = formattedWord.Replace("{city}", cityOfAction);
+                    }
+
+                    storyText += formattedWord;
+                    UpdateHelpDetails(
+                        context,
+                        "Generating Story...",
+                        storyText,
+                        "This story is being generated using a simulated LLM output.");
+                    streamingTextWriter.SetText(storyText);
+                    await Task.Delay(500);
+                }
+                streamingTextWriter.Dispose();
+            });
+
+            context.Result = ActionInvocationResult.Success;
+            context.SetOutputEntity("Story", streamingTextWriter.ReaderEntity);
         }
     }
 }

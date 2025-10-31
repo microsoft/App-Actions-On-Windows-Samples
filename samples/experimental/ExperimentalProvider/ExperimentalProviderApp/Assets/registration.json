@@ -89,6 +89,43 @@
       }
     },
     {
+      "id": "ExperimentalProviderApp.Experimental.StreamingText",
+      "description": "ms-resource://Resources/StreamingTextDescription",
+      "icon": "ms-resource://Files/Assets/StoreLogo.png",
+      "usesGenerativeAI": false,
+      "inputs": [
+        {
+          "name": "FirstName",
+          "kind": "Text"
+        },
+        {
+          "name": "City",
+          "kind": "Text"
+        }
+      ],
+      "inputCombinations": [
+        {
+          "inputs": [ "FirstName", "City" ],
+          "description": "ms-resource://Resources/StreamingTextInput"
+        }
+      ],
+      "allowedAppInvokers": [ "*" ],
+      "outputs": [
+        {
+          "name": "MessageCount",
+          "kind": "Text"
+        },
+        {
+          "name": "Story",
+          "kind": "StreamingText"
+        }
+      ],
+      "invocation": {
+        "type": "COM",
+        "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
+      }
+    },
+    {
       "id": "ExperimentalProviderApp.Experimental.EntityArray",
       "description": "ms-resource://Resources/ArrayDescription",
       "icon": "ms-resource://Files/Assets/StoreLogo.png",

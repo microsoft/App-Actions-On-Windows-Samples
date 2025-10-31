@@ -181,4 +181,16 @@
     <value>Prefix text and array of texts</value>
     <comment>Description for EntityArray action input combination.</comment>
   </data>
+  <data name="StreamingTextMessageResult" xml:space="preserve">
+    <value>Text Streaming</value>
+    <comment>Output returned to caller. Signifies text streaming as shown below.</comment>
+  </data>
+  <data name="StreamingTextInput" xml:space="preserve">
+    <value>Stream text.</value>
+    <comment>Description for StreamingTextEntity action input.</comment>
+  </data>
+  <data name="StreamingTextDescription" xml:space="preserve">
+    <value>Stream text</value>
+    <comment>Description for StreamingTextEntity action.</comment>
+  </data>
 </root>
