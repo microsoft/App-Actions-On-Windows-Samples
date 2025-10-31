@@ -199,7 +199,6 @@ namespace ExperimentalProviderApp
         private static async Task InvokeStreamingActionAsyncHelper(ActionInvocationContext context)
         {
             string firstName = string.Empty;
-            int updateCount = 0;
             string cityOfAction = string.Empty;
             foreach (NamedActionEntity inputEntity in context.GetInputEntities())
             {
@@ -233,9 +232,7 @@ namespace ExperimentalProviderApp
                         formattedWord = formattedWord.Replace("{city}", cityOfAction);
                     }
 
-
                     storyText += formattedWord;
-                    updateCount++;
                     UpdateHelpDetails(
                         context,
                         "Generating Story...",
