@@ -89,36 +89,6 @@
       }
     },
     {
-      "id": "ExperimentalProviderApp.Experimental.CustomText",
-      "description": "ms-resource://Resources/CustomTextDescription",
-      "icon": "ms-resource://Files/Assets/StoreLogo.png",
-      "usesGenerativeAI": false,
-      "inputs": [
-        {
-          "name": "CustomText",
-          "kind": "CustomText",
-          "customTextKind": "TopMovie"
-        }
-      ],
-      "inputCombinations": [
-        {
-          "inputs": [ "CustomText" ],
-          "description": "ms-resource://Resources/CustomTextInput"
-        }
-      ],
-      "allowedAppInvokers": [ "*" ],
-      "outputs": [
-        {
-          "name": "MessageCount",
-          "kind": "Text"
-        }
-      ],
-      "invocation": {
-        "type": "COM",
-        "clsid": "403EA403-A3DC-44B0-B1C2-60581E6E265E"
-      }
-    },
-    {
       "id": "ExperimentalProviderApp.Experimental.StreamingText",
       "description": "ms-resource://Resources/StreamingTextDescription",
       "icon": "ms-resource://Files/Assets/StoreLogo.png",

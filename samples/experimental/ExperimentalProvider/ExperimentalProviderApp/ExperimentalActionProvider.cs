@@ -26,10 +26,7 @@ namespace ExperimentalProviderApp
         "about a superhero ",
         "named {first_name} ",
         "that defended the city of {city} ",
-        "with courage and honor. ",
-        "{first_name} was known for their ability to fly " +
-        "and see through solid objects. {first_name} was beloved " +
-        "by everyone in {city} and {first_name}'s journey still continues to this day.",
+        "with courage. ",
         };
 
         private static bool hasChanged = false;
@@ -123,25 +120,7 @@ namespace ExperimentalProviderApp
                         return await ((App)App.Current).m_window.AddUriAsync(uriEntity);
                     }
                 }
-                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.CustomText", StringComparison.Ordinal))
-                {
-                    if (namedEntity.Name.Equals("CustomText") && namedEntity.Entity.Kind == ActionEntityKind.CustomText)
-                    {
-                        found = true;
-                        CustomTextActionEntity customEntity = CastToType<ActionEntity, CustomTextActionEntity>(namedEntity.Entity);
-
-                        string movie = customEntity.KeyPhrase;
-                        IReadOnlyDictionary<string, object> movieProperties = customEntity.Properties;
-
-                        Launcher.LaunchUriAsync(
-                            new Uri($"ms-windows-store://search/?query={movie}")).Get();
-
-                        await EnsureAppIsInitialized();
-
-                        return await ((App)App.Current).m_window.AddCustomTextAsync(customEntity);
-                    }
-                }
-                else if(context.ActionId.Equals("ExperimentalProviderApp.Experimental.StreamingText", StringComparison.Ordinal))
+                else if (context.ActionId.Equals("ExperimentalProviderApp.Experimental.StreamingText", StringComparison.Ordinal))
                 {
                     found = true;
 
@@ -149,7 +128,7 @@ namespace ExperimentalProviderApp
 
                     await InvokeStreamingActionAsyncHelper(context).AsAsyncAction();
 
-                    return await ((App)App.Current).m_window.AddStreamingTextAsync(hasChanged);
+                    return await ((App)App.Current).m_window.AddStreamingTextAsync(context.HelpDetails.Description);
                 }
             }
 
@@ -202,8 +181,7 @@ namespace ExperimentalProviderApp
         }
 
         // A helper that updates the HelpDetails and raises the event 
-
-        private static  void UpdateHelpDetails(
+        private static void UpdateHelpDetails(
             ActionInvocationContext context,
             string title,
             string description,
@@ -215,12 +193,13 @@ namespace ExperimentalProviderApp
             context.HelpDetails.Description = description;
             context.HelpDetails.HelpUriDescription = helpDescription;
             // The Changed event is raised after each property is updated 
-            ((App)App.Current).m_window.AddStreamingTextAsync(hasChanged);
+            ((App)App.Current).m_window.AddStreamingTextAsync(context.HelpDetails.Description);
         }
 
         private static async Task InvokeStreamingActionAsyncHelper(ActionInvocationContext context)
         {
             string firstName = string.Empty;
+            int updateCount = 0;
             string cityOfAction = string.Empty;
             foreach (NamedActionEntity inputEntity in context.GetInputEntities())
             {
@@ -254,13 +233,14 @@ namespace ExperimentalProviderApp
                         formattedWord = formattedWord.Replace("{city}", cityOfAction);
                     }
 
+
+                    storyText += formattedWord;
+                    updateCount++;
                     UpdateHelpDetails(
                         context,
                         "Generating Story...",
-                        $"Current length: {storyText.Length + formattedWord.Length} characters",
+                        storyText,
                         "This story is being generated using a simulated LLM output.");
-
-                    storyText += formattedWord;
                     streamingTextWriter.SetText(storyText);
                     await Task.Delay(500);
                 }

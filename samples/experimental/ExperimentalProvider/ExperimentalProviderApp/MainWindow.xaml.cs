@@ -119,39 +119,13 @@ namespace ExperimentalProviderApp
             return await tcs.Task;
         }
 
-        public async Task<string> AddCustomTextAsync(CustomTextActionEntity customTextAction)
+        public async Task<string> AddStreamingTextAsync(string updatedDescription)
         {
             TaskCompletionSource<string> tcs = new();
             DispatcherQueue.TryEnqueue(() =>
             {
-                string messageContent = "";
-
-                if(customTextAction.KeyPhrase != null)
-                {
-                    messageContent += customTextAction.KeyPhrase;
-                }
-                Messages.Add(messageContent);
-                tcs.SetResult(string.Format(resourceLoader.GetString("CustomTextMessageResult"), Messages.Count.ToString()));
-            });
-
-            return await tcs.Task;
-        }
-
-        public async Task<string> AddStreamingTextAsync(bool hasChanged)
-        {
-            TaskCompletionSource<string> tcs = new();
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                if (hasChanged)
-                {
-                    Messages.Add(resourceLoader.GetString("StreamingTextMessageResultChanged"));
-                    tcs.SetResult(resourceLoader.GetString("StreamingTextMessageResultChanged"));
-                }
-                else
-                {
-                    Messages.Add(resourceLoader.GetString("StreamingTextMessageResultUnchanged"));
-                    tcs.SetResult(resourceLoader.GetString("StreamingTextMessageResultUnchanged"));
-                }
+                Messages.Add("Current HelpDetails iteration: " +updatedDescription);
+                tcs.SetResult(resourceLoader.GetString("StreamingTextMessageResult"));
             });
 
             return await tcs.Task;
