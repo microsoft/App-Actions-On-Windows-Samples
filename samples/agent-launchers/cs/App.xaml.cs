@@ -27,7 +27,6 @@ public partial class App : Application
         }
     }
 
-    //[DynamicWindowsRuntimeCast(typeof(ProtocolActivatedEventArgs))]
     private bool TryHandleProtocolActivation()
     {
         try

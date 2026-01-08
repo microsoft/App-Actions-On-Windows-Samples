@@ -4,7 +4,7 @@
     {
       "id": "SampleAgentLauncher.ProcessAgentPrompt",
       "icon": "ms-resource://Files/Assets/Square44x44Logo.png",
-      "description": "Processes a prompt with an agent",
+      "description": "ms-resource://Resources/actionDescription",
       "usesGenerativeAI": false,
       "inputs": [
         {
@@ -25,7 +25,7 @@
       "inputCombinations": [
         {
           "inputs": [ "agentName", "prompt" ],
-          "description": "Process a prompt with the specified agent"
+          "description": "ms-resource://Resources/actionDescription"
         }
       ]
     }

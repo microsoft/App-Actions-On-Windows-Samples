@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="actionDescription" xml:space="preserve">
+    <value>Processes a prompt with an agent</value>
+  </data>
   <data name="agentDefaultQuery" xml:space="preserve">
-    <value>What can you help me with?</value>
+    <value>(Dynamic) What can you help me with?</value>
+  </data>
+  <data name="agentDefaultQueryStatic" xml:space="preserve">
+    <value>(Static) What can you help me with?</value>
+  </data>
+  <data name="agentDescription" xml:space="preserve">
+    <value>(Dynamic) A sample agent launcher that demonstrates URI action integration</value>
+  </data>
+  <data name="agentDescriptionStatic" xml:space="preserve">
+    <value>(Static) A sample agent launcher that demonstrates URI action integration</value>
+  </data>
+  <data name="agentDisplayNameStatic" xml:space="preserve">
+    <value>(Static) Sample Agent Launcher</value>
+  </data>
+  <data name="agentDisplayName" xml:space="preserve">
+    <value>(Dynamic) Sample Agent Launcher</value>
   </data>
 </root>
