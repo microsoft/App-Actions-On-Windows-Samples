@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap17="http://schemas.microsoft.com/appx/manifest/uap/windows10/17"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:com4="http://schemas.microsoft.com/appx/manifest/com/windows10/4"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="com4 rescap uap uap17">
+
+  <Identity Name="SampleAgentLauncher" Publisher="CN=Microsoft Corporation" Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="bb64c63d-95a1-4e1e-8b2a-72f3bb0c01ba" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>SampleAgentLauncher</DisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.26100.0" MaxVersionTested="12.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.26100.0" MaxVersionTested="12.0.0.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="SampleAgentLauncher"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+          DisplayName="SampleAgentLauncher"
+          Description="Sample Agent Launcher with URI actions"
+          BackgroundColor="transparent"
+          Square150x150Logo="Assets\Square150x150Logo.png"
+          Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+
+      <Extensions>
+        <!-- URI scheme registration for protocol activation -->
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="sampleagentlauncher">
+            <uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
+            <uap:DisplayName>Sample Agent Launcher Protocol</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+
+        <!-- App Extension to register the action definition -->
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension
+            Name="com.microsoft.windows.ai.actions"
+            Id="SampleAgentAction"
+            DisplayName="Sample Agent Action"
+            PublicFolder="Assets">
+            <uap3:Properties>
+              <Registration>actionDefinition.json</Registration>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+
+        <!-- Agent registration -->
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension
+            Name="com.microsoft.windows.ai.agentLauncher"
+            Id="SampleAgentLauncher"
+            DisplayName="Sample Agent Launcher"
+            PublicFolder="Assets">
+            <uap3:Properties>
+              <Registration>agentStatic.json</Registration>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+
+        <uap5:Extension Category="windows.appExecutionAlias">
+          <uap5:AppExecutionAlias>
+            <uap5:ExecutionAlias Alias="SampleAgentLauncher.exe"/>
+          </uap5:AppExecutionAlias>
+        </uap5:Extension>
+
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="appLicensing"/>
+  </Capabilities>
+</Package>

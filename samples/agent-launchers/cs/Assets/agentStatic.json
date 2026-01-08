@@ -1,0 +1,10 @@
+{
+  "manifest_version": "0.1.0",
+  "version": "1.0.0",
+  "name": "static-sample-agent-launcher",
+  "display_name": "Sample Agent Launcher (Registered Statically)",
+  "description": "A sample agent launcher that demonstrates URI action integration and was registered statically.",
+  "default_query": "ms-resource://Resources/agentDefaultQuery",
+  "icon": "ms-resource://Files/Assets/StoreLogo.png",
+  "action_id": "SampleAgentLauncher.ProcessAgentPrompt"
+}
