@@ -94,7 +94,12 @@ public partial class MainWindowViewModel : ObservableObject
         if (host.Equals("processAgentPrompt", StringComparison.OrdinalIgnoreCase))
         {
             var queryParams = HttpUtility.ParseQueryString(query);
+
+            // multiple agents can be registered within a single app. the agentName parameter
+            // is how to determine which agent is being invoked
             string agentName = queryParams["agentName"] ?? "Unknown";
+
+            // This is the prompt provided by the user
             string prompt = queryParams["prompt"] ?? "No prompt provided";
 
             AppendOutput($"Action: processAgentPrompt");
