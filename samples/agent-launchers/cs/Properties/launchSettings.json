@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SampleAgentLauncher (Packaged)": {
+      "commandName": "MsixPackage"
+    },
+    "SampleAgentLauncher (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

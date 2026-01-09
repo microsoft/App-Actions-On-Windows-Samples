@@ -1,0 +1,10 @@
+{
+  "manifest_version": "0.1.0",
+  "version": "1.0.0",
+  "name": "static-sample-agent-launcher",
+  "display_name": "ms-resource://Resources/agentDisplayNameStatic",
+  "description": "ms-resource://Resources/agentDescriptionStatic",
+  "default_query": "ms-resource://Resources/agentDefaultQueryStatic",
+  "icon": "ms-resource://Files/Assets/StoreLogo.png",
+  "action_id": "SampleAgentLauncher.ProcessAgentPrompt"
+}

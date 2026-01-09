@@ -1,0 +1,50 @@
+<UserControl
+    x:Class="SampleAgentLauncher.Controls.InvocationInfoPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="15"
+            Visibility="{x:Bind BoolToVisibility(ViewModel.IsVisible), Mode=OneWay}">
+        <StackPanel Spacing="8">
+            <TextBlock Text="Agent Invocation Received"
+                       FontSize="16"
+                       FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Action:"
+                           FontWeight="SemiBold"/>
+                <TextBlock Text="{x:Bind ViewModel.ActionText, Mode=OneWay}"
+                           IsTextSelectionEnabled="True"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Agent Name:"
+                           FontWeight="SemiBold"/>
+                <TextBlock Text="{x:Bind ViewModel.AgentName, Mode=OneWay}"
+                           IsTextSelectionEnabled="True"/>
+            </StackPanel>
+            <StackPanel Spacing="4">
+                <TextBlock Text="Prompt:"
+                           FontWeight="SemiBold"/>
+                <TextBlock Text="{x:Bind ViewModel.Prompt, Mode=OneWay}"
+                           TextWrapping="Wrap"
+                           IsTextSelectionEnabled="True"/>
+            </StackPanel>
+            <StackPanel Spacing="4">
+                <TextBlock Text="Full URI:"
+                           FontWeight="SemiBold"/>
+                <TextBlock Text="{x:Bind ViewModel.UriText, Mode=OneWay}"
+                           TextWrapping="Wrap"
+                           FontFamily="Cascadia Code"
+                           FontSize="11"
+                           IsTextSelectionEnabled="True"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>
+

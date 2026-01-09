@@ -1,0 +1,33 @@
+{
+  "version": 3,
+  "actions": [
+    {
+      "id": "SampleAgentLauncher.ProcessAgentPrompt",
+      "icon": "ms-resource://Files/Assets/Square44x44Logo.png",
+      "description": "ms-resource://Resources/actionDescription",
+      "usesGenerativeAI": false,
+      "inputs": [
+        {
+          "name": "agentName",
+          "kind": "Text"
+        },
+        {
+          "name": "prompt",
+          "kind": "Text"
+        }
+      ],
+      "outputs": [],
+      "allowedAppInvokers": [ "*" ],
+      "invocation": {
+        "type": "Uri",
+        "uri": "sampleagentlauncher://processAgentPrompt?agentName=${agentName}&prompt=${prompt}"
+      },
+      "inputCombinations": [
+        {
+          "inputs": [ "agentName", "prompt" ],
+          "description": "ms-resource://Resources/actionDescription"
+        }
+      ]
+    }
+  ]
+}
