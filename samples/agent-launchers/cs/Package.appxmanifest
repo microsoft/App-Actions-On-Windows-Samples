@@ -69,7 +69,7 @@
         <!-- Agent registration -->
         <uap3:Extension Category="windows.appExtension">
           <uap3:AppExtension
-            Name="com.microsoft.windows.ai.agentLauncher"
+            Name="com.microsoft.windows.ai.agentInfo"
             Id="SampleAgentLauncher"
             DisplayName="Sample Agent Launcher"
             PublicFolder="Assets">

@@ -1,12 +1,11 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Win32;
+using SampleAgentLauncher.Helpers;
 using SampleAgentLauncher.Models;
 using SampleAgentLauncher.ViewModels;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,9 +15,8 @@ namespace SampleAgentLauncher;
 
 public partial class MainWindowViewModel : ObservableObject
 {
-    private const string AgentId = "AppAssociatedAgent_SampleAgentLauncher_s9y1p3hwd5qda_sample-agent-launcher";
+    private const string AgentId = "SampleAgentLauncher_s9y1p3hwd5qda_sample-agent-launcher";
     private const string StaticAgentName = "static-sample-agent-launcher";
-    private static string? OdrCommand;
 
     private RegistrationStatusItemViewModel _staticStatusItem;
     private RegistrationStatusItemViewModel _dynamicStatusItem;
@@ -141,7 +139,7 @@ public partial class MainWindowViewModel : ObservableObject
 
         AppendOutput("Checking registration status...");
 
-        CommandResult result = await RunOdrCommandAsync("agent-launchers list", string.Empty);
+        OdrCommandResult result = await RunOdrCommandAsync("agent-info list", string.Empty);
 
         if (result.ExitCode == 0)
         {
@@ -175,7 +173,7 @@ public partial class MainWindowViewModel : ObservableObject
 
         AppendOutput($"Registering agent launcher using: {agentJsonPath}");
 
-        CommandResult result = await RunOdrCommandAsync("agent-launchers add", agentJsonPath);
+        OdrCommandResult result = await RunOdrCommandAsync("agent-info add", agentJsonPath);
 
         AppendOutput($"Add Agent Launcher Command Output:");
         AppendOutput($"Exit Code: {result.ExitCode}");
@@ -199,9 +197,17 @@ public partial class MainWindowViewModel : ObservableObject
     {
         ClearStatus();
 
-        AppendOutput($"Unregistering agent launcher with ID: {AgentId}");
+        string? agentJsonPath = GetAgentJsonPath();
+        if (agentJsonPath == null)
+        {
+            AppendOutput("Error: Could not locate agent.json file");
+            SetStatus("Error: agent.json not found");
+            return;
+        }
 
-        CommandResult result = await RunOdrCommandAsync("agent-launchers remove", AgentId);
+        AppendOutput($"Unregistering agent launcher {agentJsonPath}");
+
+        OdrCommandResult result = await RunOdrCommandAsync("agent-info remove", agentJsonPath);
 
         AppendOutput($"Remove Agent Launcher Command Output:");
         AppendOutput($"Exit Code: {result.ExitCode}");
@@ -225,7 +231,7 @@ public partial class MainWindowViewModel : ObservableObject
     {
         AppendOutput("Retrieving list of agent launchers...");
 
-        CommandResult result = await RunOdrCommandAsync("agent-launchers list", string.Empty);
+        OdrCommandResult result = await RunOdrCommandAsync("agent-info list", string.Empty);
 
         AppendOutput("List Agent Launchers Command Output:");
         AppendOutput($"Exit Code: {result.ExitCode}");
@@ -339,45 +345,10 @@ public partial class MainWindowViewModel : ObservableObject
         return null;
     }
 
-    private static string GetODRCommand()
+    private async Task<OdrCommandResult> RunOdrCommandAsync(string command, string argument)
     {
-        if (string.IsNullOrEmpty(OdrCommand))
-        {
-            using RegistryKey? key = Registry.LocalMachine.OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Mcp", false);
-            OdrCommand = key?.GetValue("Command") as string;
-        }
-
-        if (string.IsNullOrEmpty(OdrCommand))
-        {
-            throw new InvalidOperationException("ODR command not found in registry.");
-        }
-
-        return OdrCommand;
-    }
-
-    private async Task<CommandResult> RunOdrCommandAsync(string command, string argument)
-    {
-        ProcessStartInfo startInfo = new ProcessStartInfo
-        {
-            FileName = GetODRCommand(),
-            Arguments = string.IsNullOrEmpty(argument) ? command : $"{command} \"{argument}\"",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-
-        AppendOutput($"Executing: {startInfo.FileName} {startInfo.Arguments}");
-
-        using Process process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        string output = await process.StandardOutput.ReadToEndAsync();
-        string error = await process.StandardError.ReadToEndAsync();
-
-        await process.WaitForExitAsync();
-
-        return new CommandResult(process.ExitCode, output, error);
+        AppendOutput($"Executing: {OdrCommandHelper.GetFullCommandString(command, string.IsNullOrEmpty(argument) ? null : argument)}");
+        return await OdrCommandHelper.RunCommandAsync(command, string.IsNullOrEmpty(argument) ? null : argument);
     }
 
     private void SetStatus(string status)
@@ -405,8 +376,6 @@ public partial class MainWindowViewModel : ObservableObject
         OutputText = currentOutput + (string.IsNullOrEmpty(currentOutput) ? "" : "\n") +
                      $"[{timestamp}] {text}";
     }
-
-    private record CommandResult(int ExitCode, string Output, string Error);
 }
 
 public record LauncherInfo(string Name, string DisplayName, string ActionId);

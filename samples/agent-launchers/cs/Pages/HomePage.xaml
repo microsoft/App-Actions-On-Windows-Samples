@@ -1,0 +1,168 @@
+<Page x:Class="SampleAgentLauncher.Pages.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SampleAgentLauncher"
+      xmlns:controls="using:SampleAgentLauncher.Controls">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Sample Agent Launcher"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="20,20,20,10"
+                   HorizontalAlignment="Center"/>
+
+        <!-- Agent Invocation Info Panel -->
+        <controls:InvocationInfoPanel x:Name="InvocationInfoPanel"
+                                      Grid.Row="1"
+                                      Margin="20,0,20,10"
+                                      ViewModel="{x:Bind ViewModel.InvocationInfo, Mode=OneWay}"/>
+
+        <!-- Registration Status Panel -->
+        <controls:RegistrationStatusPanel Grid.Row="2"
+                                          Margin="20,0,20,0"
+                                          HorizontalAlignment="Left"
+                                          ViewModel="{x:Bind ViewModel.RegistrationStatusPanel, Mode=OneWay}"/>
+
+        <StackPanel Grid.Row="3" Orientation="Vertical" Spacing="15" Margin="20">
+            <TextBlock Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
+                       Margin="20,10"
+                       HorizontalAlignment="Center"
+                       FontWeight="SemiBold"
+                       Foreground="Red"
+                       Visibility="{x:Bind BoolToVisibility(ViewModel.StatusVisible), Mode=OneWay}"/>
+
+            <!-- Navigation Button to Agent Info Page -->
+            <Button HorizontalAlignment="Left"
+                    Click="NavigateToAgentInfoPage_Click">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE946;" FontSize="16"/>
+                    <TextBlock Text="View Agent Info Commands"/>
+                </StackPanel>
+            </Button>
+
+            <Expander Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1"
+                      CornerRadius="8"
+                      IsExpanded="True"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      Header="Registered Agent Launchers"
+                      Margin="0"
+                      Padding="0">
+                <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+                    <Grid x:Name="LaunchersTableGrid" Margin="8" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header Row -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="8,4">
+                                <TextBlock Text="Name" FontWeight="Bold" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+                            </Border>
+                            <Border Grid.Column="1" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="8,4">
+                                <TextBlock Text="Display Name" FontWeight="Bold" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+                            </Border>
+                            <Border Grid.Column="2" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="8,4">
+                                <TextBlock Text="Action ID" FontWeight="Bold" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Data Panel -->
+                        <StackPanel Grid.Row="1" Margin="0,8,0,0">
+                            <!-- Message when no launchers or loading -->
+                            <TextBlock Text="{x:Bind ViewModel.LaunchersMessage, Mode=OneWay}"
+                                       FontStyle="Italic"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Padding="8"
+                                       Visibility="{x:Bind BoolToVisibility(ViewModel.ShowLaunchersMessage), Mode=OneWay}"/>
+                            
+                            <!-- Launchers List -->
+                            <ItemsControl ItemsSource="{x:Bind ViewModel.Launchers, Mode=OneWay}"
+                                          Visibility="{x:Bind BoolToVisibility(ViewModel.HasLaunchers), Mode=OneWay}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="local:LauncherInfo">
+                                        <Grid Margin="0,0,0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{x:Bind Name}"
+                                                       Padding="8,4"
+                                                       TextWrapping="Wrap"
+                                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                                       IsTextSelectionEnabled="True"/>
+                                            
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{x:Bind DisplayName}"
+                                                       Padding="8,4"
+                                                       TextWrapping="Wrap"
+                                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                                       IsTextSelectionEnabled="True"/>
+                                            
+                                            <TextBlock Grid.Column="2"
+                                                       Text="{x:Bind ActionId}"
+                                                       Padding="8,4"
+                                                       TextWrapping="Wrap"
+                                                       FontFamily="Cascadia Code"
+                                                       FontSize="11"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       IsTextSelectionEnabled="True"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </Expander>
+        </StackPanel>
+
+        <Grid Grid.Row="5" Margin="20,0,20,20" VerticalAlignment="Stretch">
+            <Expander IsExpanded="False"
+                      Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1"
+                      CornerRadius="8"
+                      HorizontalAlignment="Stretch" 
+                      HorizontalContentAlignment="Stretch" 
+                      VerticalAlignment="Bottom"
+                      Header="Debug Output"
+                      Margin="0"
+                      Padding="0">
+                <ScrollViewer x:Name="OutputScrollViewer"
+                              Height="300"
+                              VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                               TextWrapping="Wrap"
+                               Margin="8"
+                               HorizontalAlignment="Stretch"
+                               HorizontalTextAlignment="Left"
+                               FontFamily="Cascadia Code"
+                               FontSize="12"
+                               IsTextSelectionEnabled="True"/>
+                </ScrollViewer>
+            </Expander>
+        </Grid>
+    </Grid>
+</Page>
