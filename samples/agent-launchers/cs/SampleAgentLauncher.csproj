@@ -50,6 +50,12 @@
     <None Update="Controls\RegistrationStatusPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <Page Update="Pages\AgentInfoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--

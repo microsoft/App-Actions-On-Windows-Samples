@@ -4,7 +4,7 @@
   "name": "sample-agent-launcher",
   "display_name": "ms-resource://Resources/agentDisplayName",
   "description": "ms-resource://Resources/agentDescription",
-  "default_query": "ms-resource://Resources/agentDefaultQuery",
+  "placeholder_text": "ms-resource://Resources/agentPlaceholderText",
   "icon": "ms-resource://Files/Assets/StoreLogo.png",
   "action_id": "SampleAgentLauncher.ProcessAgentPrompt"
 }
