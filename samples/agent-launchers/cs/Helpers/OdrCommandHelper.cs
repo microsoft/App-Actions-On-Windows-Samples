@@ -69,8 +69,11 @@ public static class OdrCommandHelper
         using Process process = new() { StartInfo = startInfo };
         process.Start();
 
-        string output = await process.StandardOutput.ReadToEndAsync();
-        string error = await process.StandardError.ReadToEndAsync();
+        Task<string> outputTask = process.StandardOutput.ReadToEndAsync();
+        Task<string> errorTask = process.StandardError.ReadToEndAsync();
+        await Task.WhenAll([outputTask, errorTask]);
+        string output = outputTask.Result;
+        string error = errorTask.Result;
 
         await process.WaitForExitAsync();
 
